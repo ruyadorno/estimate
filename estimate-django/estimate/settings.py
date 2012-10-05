@@ -105,6 +105,7 @@ WSGI_APPLICATION = 'estimate.wsgi.application'
 
 TEMPLATE_DIRS = (
     local_settings.PATH+'estimate/templates/',
+    local_settings.PATH+'stories/templates/',
 )
 
 INSTALLED_APPS = (
@@ -118,6 +119,7 @@ INSTALLED_APPS = (
     # 'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
+    'stories',
 )
 
 # A sample logging configuration. The only tangible logging
