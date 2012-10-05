@@ -1,9 +1,11 @@
 {% extends "base.html" %}
 
 {% block content %}
-<ul>
+<h1>Lista de Projetos</h1>
+<table class="table">
+<thead><tr><th>#</th><th>Nome:</th></tr></thead>
 {% for project in projects %}
-<li>{{ project.name }}</li>
+<tr><td>{{ project.id }}</td><td>{{ project.name }}</td></tr>
 {% endfor %}
-</ul>
+</table>
 {% endblock %}

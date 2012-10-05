@@ -2,13 +2,13 @@
 <html>
 	<head>
 		<title>Estimate</title>
-		<link href="{{STATIC}}/bootstrap.min.css" rel="stylesheet">
+		<link href="{{ STATIC_URL }}/bootstrap.min.css" rel="stylesheet">
 	</head>
 	<body>
-		<div id="main" class="main" role="main">
+		<div id="main" class="main container" role="main">
 			{% block content %}{% endblock %}
 		</div>
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-		<script src="{{STATIC}}/bootstrap.min.js"></script>
+		<script src="{{ STATIC_URL }}/bootstrap.min.js"></script>
 	</body>
 </html>
