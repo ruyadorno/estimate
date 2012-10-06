@@ -1,5 +1,6 @@
 *.log
 *.pot
 *.pyc
+.DS_STORE
 local_settings.py
 database.db
