@@ -10,5 +10,22 @@
 		</div>
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 		<script src="{{ STATIC_URL }}/bootstrap.min.js"></script>
+		<script>
+			function main(){
+				$('.toggle-options').click(onToggleOptions);
+			}
+			function onToggleOptions(e){
+				if($(e.currentTarget).find('i').hasClass('icon-minus-sign')){
+					$(e.currentTarget.parentNode).find('form').animate({width:80});
+					$(e.currentTarget).find('i').removeClass('icon-minus-sign')
+					$(e.currentTarget).find('i').addClass('icon-remove-sign')
+				} else {
+					$(e.currentTarget.parentNode).find('form').animate({width:0});
+					$(e.currentTarget).find('i').removeClass('icon-remove-sign')
+					$(e.currentTarget).find('i').addClass('icon-minus-sign')
+				}
+			}
+			$(main);
+		</script>
 	</body>
 </html>

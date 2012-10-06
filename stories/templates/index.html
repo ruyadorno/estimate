@@ -3,10 +3,9 @@
 {% block content %}
 <h1>Projects list</h1>
 <table class="table">
-<thead><tr><th>#</th><th>Name:</th></tr></thead>
+	<thead><tr><th>#</th><th>Name</th><th>Options</th></tr></thead>
 {% for project in projects %}
-<tr><td>{{ project.id }}</td><td>{{ project.name }}</td></tr>
-{% endfor %}
+<tr><td width="5%">{{ project.id }}</td><td>{{ project.name }}</td><td width="12%" style="position:relative"><a class="toggle-options" href="#"><i class="icon-minus-sign"></i></a><form action="remove" method="post" style="position:absolute;top:3px;left:30px;width:0px;overflow:hidden"><input class="btn btn-danger" type="submit" value="Delete"/></form></td></tr> {% endfor %}
 </table>
 <div class="well">
 	{% if form.errors %}
