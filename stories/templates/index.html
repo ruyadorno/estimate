@@ -5,7 +5,20 @@
 <table class="table">
 	<thead><tr><th>#</th><th>Name</th><th>Options</th></tr></thead>
 {% for project in projects %}
-<tr><td width="5%">{{ project.id }}</td><td>{{ project.name }}</td><td width="12%" style="position:relative"><a class="toggle-options" href="#"><i class="icon-minus-sign"></i></a><form action="remove" method="post" style="position:absolute;top:3px;left:30px;width:0px;overflow:hidden"><input class="btn btn-danger" type="submit" value="Delete"/></form></td></tr> {% endfor %}
+<tr>
+	<td width="5%">{{ project.id }}</td>
+	<td>{{ project.name }}</td>
+	<td width="12%" style="position:relative">
+		<a class="toggle-options" style="position:absolute;top:9px;left:30px" href="#">
+			<i class="icon-minus-sign"></i>
+			</a>
+			<form action="remove" method="post" style="position:absolute;top:3px;left:30px;width:0px;overflow:hidden">
+				<input id="id_id" name="id" value="{{ project.id }}" type="hidden"/>
+				<input class="btn btn-danger" type="submit" value="Delete"/>
+			</form>
+	</td>
+</tr>
+{% endfor %}
 </table>
 <div class="well">
 	{% if form.errors %}

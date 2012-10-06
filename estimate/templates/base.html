@@ -16,10 +16,16 @@
 			}
 			function onToggleOptions(e){
 				if($(e.currentTarget).find('i').hasClass('icon-minus-sign')){
-					$(e.currentTarget.parentNode).find('form').animate({width:80});
+					$(e.currentTarget).animate({left:0});
+					setTimeout(function(){
+						$(e.currentTarget.parentNode).find('form').animate({width:80});
+					}, 300);
 					$(e.currentTarget).find('i').removeClass('icon-minus-sign')
 					$(e.currentTarget).find('i').addClass('icon-remove-sign')
 				} else {
+					setTimeout(function(){
+						$(e.currentTarget).animate({left:30});
+					}, 300);
 					$(e.currentTarget.parentNode).find('form').animate({width:0});
 					$(e.currentTarget).find('i').removeClass('icon-remove-sign')
 					$(e.currentTarget).find('i').addClass('icon-minus-sign')
