@@ -6,8 +6,8 @@
 	<thead><tr><th>#</th><th>Name</th><th>Options</th></tr></thead>
 {% for project in projects %}
 <tr>
-	<td width="5%">{{ project.id }}</td>
-	<td>{{ project.name }}</td>
+	<td width="5%"><a href="{% url project  project.id %}">{{ project.id }}</a></td>
+	<td><a href="{% url project project.id %}">{{ project.name }}</a></td>
 	<td width="12%" style="position:relative">
 		<a class="toggle-options" style="position:absolute;top:9px;left:30px" href="#">
 			<i class="icon-minus-sign"></i>
@@ -32,7 +32,7 @@
 			<textarea id="id_description" name="description" rows="1" style="width:300px" placeholder="Initial project description goes here..." {% if form.description.value %}value="{{ form.name.value }}"{% endif %} style="height:20px"></textarea>
 		</span>
 		<span class="input-append control-group{% if form.name.errors %} error{% endif %}">
-			<input id="id_name" type="text" name="name" placeholder="Project name" {% if form.name.value %}value="{{ form.name.value }}"{% endif %}/>
+			<input id="id_name" type="text" name="name" placeholder="Project name" {% if form.name.value %}value="{{ form.name.value }}"{% endif %} maxlength="100"/>
 			<input class="btn {% if not form.name.errors %} btn-primary{% endif %}" type="submit" value="Add"/>
 		</span>
 	</form>

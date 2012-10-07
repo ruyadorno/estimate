@@ -4,4 +4,5 @@ urlpatterns = patterns('',
     url(r'^$', 'stories.views.index', name='stories_index'),
     url(r'^add/', 'stories.views.add', name='stories_add'),
     url(r'^remove/', 'stories.views.remove', name='stories_remove'),
+    url(r'^project/(?P<project_id>\d+)/$', 'stories.views.project', name='project'),
 )

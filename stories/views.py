@@ -1,8 +1,8 @@
 from django.http import Http404
-from django.shortcuts import redirect, render_to_response, get_object_or_404
+from django.shortcuts import redirect, render_to_response, get_object_or_404, get_list_or_404
 from django.template import RequestContext
 
-from stories.models import Project
+from stories.models import Project, Story
 from stories.forms import ProjectForm
 
 
@@ -35,3 +35,10 @@ def remove(request):
         return redirect('stories_index')
     else:
         raise Http404
+
+def project(request, project_id):
+    project = get_object_or_404(Project, id=project_id)
+    stories = Story.objects.all()
+    #get_list_or_404(Story, )
+    context = RequestContext(request, {'project':project, 'stories':stories})
+    return render_to_response('project.html', context)
