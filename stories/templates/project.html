@@ -2,6 +2,29 @@
 
 {% block content %}
 <h1>{{ project.name }}</h1>
+<p>{{ project.description }}</p>
 <table class="table">
-	<thead><tr><th>#</th><th>Name</th><th>Options</th></tr></thead>
+<thead><tr><th>#</th><th>Name</th><th>Time</th><th>Options</th></tr></thead>
+{% for story in stories %}
+<tr>
+	<td width="5%">{{ story.id }}</td>
+	<td>{{ story.name }}</td>
+	<td>
+		<form action="{% url change_story_time %}" method="post">{% csrf_token %}
+			<input id="id_id" name="id" value="{{ story.id }}" type="hidden"/>
+			<input class="span1" id="id_time" name="time" value="{{ story.time }}" type="text"/>
+		</form>
+	</td>
+	<td width="12%" style="position:relative">
+		<a class="toggle-options" style="position:absolute;top:9px;left:30px" href="#">
+			<i class="icon-minus-sign"></i>
+		</a>
+		<form action="{% url stories_remove_project %}" method="post" style="position:absolute;top:3px;left:30px;width:0px;overflow:hidden">{% csrf_token %}
+			<input id="id_delete_id" name="delete_id" value="{{ story.id }}" type="hidden"/>
+			<input class="btn btn-danger" type="submit" value="Delete"/>
+		</form>
+	</td>
+</tr>
+{% endfor %}
+</table>
 {% endblock %}
