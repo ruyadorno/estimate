@@ -2,7 +2,10 @@
 
 {% block content %}
 <p class="lead"><a href="{% url stories_index %}">Back to projects list</a></p>
-<h1>{{ project.name }}</h1>
+<h1 style="float:left">{{ project.name }}</h1>
+<h2 style="float:right">{{ project.total_time }}</h2>
+<small style="position:absolute;top:45px;right:2px">Time:</small>
+<br clear="all"/>
 <p>{{ project.description }}</p>
 <div class="well" style="margin-top:20px">
 	{% if form.errors %}

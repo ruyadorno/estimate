@@ -29,6 +29,7 @@
 	</div>
 	{% endif %}
 	<form action="{% url stories_add_project %}" method="post" style="margin:0">{% csrf_token %}
+		<label>Add a new project:</label>
 		<span class="control-group{% if form.description.errors %} error{% endif %}">
 			<textarea id="id_description" name="description" rows="1" placeholder="Initial project description goes here..." {% if form.description.value %}value="{{ form.name.value }}"{% endif %} style="height:20px;width:60%"></textarea>
 		</span>
