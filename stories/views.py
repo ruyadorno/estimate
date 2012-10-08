@@ -7,7 +7,11 @@ from stories.forms import ProjectForm, StoryForm
 
 
 def index(request):
-    context = RequestContext(request, {'projects':Project.objects.all(), 'form':ProjectForm()})
+    projects = Project.objects.filter(active=True)
+    context = RequestContext(request, {
+        'projects':projects,
+        'form':ProjectForm(),
+    })
     return render_to_response('index.html', context)
 
 def add_project(request):
@@ -21,7 +25,10 @@ def add_project(request):
             return add_project_error(request, form)
 
 def add_project_error(request, form):
-    context = RequestContext(request, {'projects':Project.objects.all(), 'form':form})
+    context = RequestContext(request, {
+        'projects':Project.objects.all(),
+        'form':form,
+    })
     return render_to_response('index.html', context)
 
 def remove_project(request):
@@ -31,7 +38,8 @@ def remove_project(request):
         except KeyError:
             return redirect('stories_index')
         project = get_object_or_404(Project, id=delete_id)
-        project.delete()
+        project.active = False
+        project.save()
         return redirect('stories_index')
     else:
         raise Http404
@@ -39,7 +47,11 @@ def remove_project(request):
 def project_page(request, project_id):
     project = get_object_or_404(Project, id=project_id)
     stories = Story.objects.filter(project_id=project.id)
-    context = RequestContext(request, {'project':project, 'stories':stories, 'form':StoryForm})
+    context = RequestContext(request, {
+        'project':project,
+        'stories':stories,
+        'form':StoryForm,
+    })
     return render_to_response('project.html', context)
 
 def change_story_time(request):
@@ -74,5 +86,17 @@ def add_story(request):
         else:
             #TODO: Return to project page with an error here too
             raise Http404
+    else:
+        raise Http404
+
+def remove_story(request):
+    if request.method == 'POST':
+        try:
+            delete_id = request.POST['delete_id']
+        except KeyError:
+            return redirect('stories_index')
+        story = get_object_or_404(Story, id=delete_id)
+        story.delete()
+        return redirect('stories_index')
     else:
         raise Http404
