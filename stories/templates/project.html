@@ -3,14 +3,33 @@
 {% block content %}
 <h1>{{ project.name }}</h1>
 <p>{{ project.description }}</p>
+<div class="well" style="margin-top:20px">
+	{% if form.errors %}
+	<div class="alert alert-error">
+		<i class="icon-warning-sign icon-white"></i>
+		Have you forgot to add something? Please review your entry below.
+	</div>
+	{% endif %}
+	<form action="{% url add_story %}" method="post" style="margin:0">{% csrf_token %}
+		<input id="id_project" type="hidden" name="project" value="{{ project.id }}"/>
+		<label>Add a new story:</label>
+		<span class="control-group{% if form.description.errors %} error{% endif %}">
+			<input id="id_name" type="text" name="name" placeholder="Story short description or name" {% if form.name.value %}value="{{ form.name.value }}"{% endif %} style="width:70%" maxlength="100"/>
+		</span>
+		<span class="input-append control-group{% if form.name.errors %} error{% endif %}">
+			<input class="span1" id="id_time" type="text" name="time" placeholder="Time" {% if form.name.value %}value="{{ form.name.value }}"{% endif %} maxlength="6"/>
+			<input class="btn {% if not form.name.errors %} btn-primary{% endif %}" style="width:10%" type="submit" value="Add"/>
+		</span>
+	</form>
+</div>
 <table class="table">
 <thead><tr><th>#</th><th>Name</th><th>Time</th><th>Options</th></tr></thead>
 {% for story in stories %}
 <tr>
 	<td width="5%">{{ story.id }}</td>
 	<td>{{ story.name }}</td>
-	<td>
-		<form action="{% url change_story_time %}" method="post">{% csrf_token %}
+	<td style="position:relative">
+		<form action="{% url change_story_time %}" method="post" style="position:absolute;top:3px">{% csrf_token %}
 			<input id="id_id" name="id" value="{{ story.id }}" type="hidden"/>
 			<input class="span1" id="id_time" name="time" value="{{ story.time }}" type="text"/>
 		</form>

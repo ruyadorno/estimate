@@ -7,7 +7,7 @@
 {% for project in projects %}
 <tr>
 	<td width="5%"><a href="{% url project_page project.id %}">{{ project.id }}</a></td>
-	<td><a href="{% url project project.id %}">{{ project.name }}</a></td>
+	<td><a href="{% url project_page project.id %}">{{ project.name }}</a></td>
 	<td width="12%" style="position:relative">
 		<a class="toggle-options" style="position:absolute;top:9px;left:30px" href="#">
 			<i class="icon-minus-sign"></i>

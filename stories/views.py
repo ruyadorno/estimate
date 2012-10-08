@@ -3,7 +3,7 @@ from django.shortcuts import redirect, render_to_response, get_object_or_404
 from django.template import RequestContext
 
 from stories.models import Project, Story
-from stories.forms import ProjectForm
+from stories.forms import ProjectForm, StoryForm
 
 
 def index(request):
@@ -39,7 +39,7 @@ def remove_project(request):
 def project_page(request, project_id):
     project = get_object_or_404(Project, id=project_id)
     stories = Story.objects.filter(project_id=project.id)
-    context = RequestContext(request, {'project':project, 'stories':stories})
+    context = RequestContext(request, {'project':project, 'stories':stories, 'form':StoryForm})
     return render_to_response('project.html', context)
 
 def change_story_time(request):
@@ -61,5 +61,18 @@ def change_story_time(request):
             #Actually, that would be a nice behaviour for add/remove actions
             pass
         return redirect('project_page', project_id=story.project_id)
+    else:
+        raise Http404
+
+def add_story(request):
+    if request.method == 'POST':
+        story = Story(accepted=True)
+        form = StoryForm(request.POST, instance=story)
+        if form.is_valid():
+            form.save()
+            return redirect('project_page', project_id=story.project_id)
+        else:
+            #TODO: Return to project page with an error here too
+            raise Http404
     else:
         raise Http404
