@@ -3,11 +3,12 @@
 {% block content %}
 <h1>Projects list</h1>
 <table class="table">
-	<thead><tr><th>#</th><th>Name</th><th>Options</th></tr></thead>
+	<thead><tr><th>#</th><th>Name</th><th>Time</th><th>Options</th></tr></thead>
 {% for project in projects %}
 <tr>
 	<td width="5%"><a href="{% url project_page project.id %}">{{ forloop.counter }}</a></td>
 	<td><a href="{% url project_page project.id %}">{{ project.name }}</a></td>
+	<td width="10%">{{ project.total_time }}</td>
 	<td width="12%" style="position:relative">
 		<a class="toggle-options" style="position:absolute;top:9px;left:30px" href="#">
 			<i class="icon-minus-sign"></i>
