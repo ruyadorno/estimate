@@ -96,7 +96,8 @@ def remove_story(request):
         except KeyError:
             return redirect('stories_index')
         story = get_object_or_404(Story, id=delete_id)
+        project_id = story.project_id
         story.delete()
-        return redirect('stories_index')
+        return redirect('project_page', project_id=project_id)
     else:
         raise Http404
