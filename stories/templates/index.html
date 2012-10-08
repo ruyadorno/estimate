@@ -29,11 +29,11 @@
 	{% endif %}
 	<form action="{% url stories_add_project %}" method="post" style="margin:0">{% csrf_token %}
 		<span class="control-group{% if form.description.errors %} error{% endif %}">
-			<textarea id="id_description" name="description" rows="1" style="width:300px" placeholder="Initial project description goes here..." {% if form.description.value %}value="{{ form.name.value }}"{% endif %} style="height:20px"></textarea>
+			<textarea id="id_description" name="description" rows="1" placeholder="Initial project description goes here..." {% if form.description.value %}value="{{ form.name.value }}"{% endif %} style="height:20px;width:60%"></textarea>
 		</span>
 		<span class="input-append control-group{% if form.name.errors %} error{% endif %}">
-			<input id="id_name" type="text" name="name" placeholder="Project name" {% if form.name.value %}value="{{ form.name.value }}"{% endif %} maxlength="100"/>
-			<input class="btn {% if not form.name.errors %} btn-primary{% endif %}" type="submit" value="Add"/>
+			<input id="id_name" type="text" name="name" placeholder="Project name" {% if form.name.value %}value="{{ form.name.value }}"{% endif %} maxlength="100" style="width:25%"/>
+			<input class="btn {% if not form.name.errors %} btn-primary{% endif %}" type="submit" value="Add" style="width:10%"/>
 		</span>
 	</form>
 </div>

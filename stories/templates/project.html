@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
+<p class="lead"><a href="{% url stories_index %}">Back to projects list</a></p>
 <h1>{{ project.name }}</h1>
 <p>{{ project.description }}</p>
 <div class="well" style="margin-top:20px">
