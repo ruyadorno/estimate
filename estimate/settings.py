@@ -4,12 +4,8 @@ import local_settings
 DEBUG = local_settings.DEBUG
 TEMPLATE_DEBUG = local_settings.DEBUG
 
-ADMINS = (
-    ('Ruy Adorno', 'ruy@rcdigital.com.br'),
-)
-
+ADMINS = local_settings.ADMINS
 MANAGERS = ADMINS
-
 DATABASES = local_settings.DATABASES
 
 # Local time zone for this installation. Choices can be found here:
