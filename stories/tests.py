@@ -13,6 +13,7 @@ class SimpleTest(TestCase):
         self.client = Client()
         self.projects = Project.objects.all()
         self.active_projects = Project.objects.filter(active=True)
+        self.unactive_projects = Project.objects.filter(active=False)
 
     def test_fixtures(self):
         "Test fixtures are loaded and data is accessible"
@@ -27,3 +28,5 @@ class SimpleTest(TestCase):
         )
         for project in self.active_projects:
             self.assertContains(response, project.name, 1)
+        for project in self.unactive_projects:
+            self.assertNotContains(response, project.name)
