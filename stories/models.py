@@ -16,9 +16,15 @@ class Project(models.Model):
 
     total_time = property(_get_total_time)
 
+    def __unicode__(self):
+        return self.name
+
 
 class Story(models.Model):
     name = models.CharField(max_length=100)
     time = models.IntegerField()
     accepted = models.BooleanField()
     project = models.ForeignKey(Project)
+
+    def __unicode__(self):
+        return self.name
