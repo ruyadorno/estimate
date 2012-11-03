@@ -57,7 +57,26 @@ class SimpleTest(TestCase):
         )
         self.assertRedirects(response, '/')
         # Test database have actually been updated and check new content
-        new_projects = Project.objects.all().count
+        new_projects = Project.objects.all().count()
         self.assertNotEqual(old_projects, new_projects)
         added_project = Project.objects.get(name=name_added)
         self.assertEqual(added_project.description, desc_added)
+
+    def test_remove_project(self):
+        # Get the projects length before saving
+        old_projects = self.projects.count()
+        # Add project should be a post only page
+        response_fail = self.client.get('/remove/')
+        self.assertEqual(response_fail.status_code, 404)
+        # Test a non valid form
+        response_fail = self.client.post('/remove/', {'delete_id':'20'})
+        self.assertEqual(response_fail.status_code, 404)
+        # Testing a post form
+        id_deleted = '1'
+        response = self.client.post('/remove/', {'delete_id':id_deleted})
+        self.assertRedirects(response, '/')
+        # Test database have actually been updated and check new content
+        new_projects = Project.objects.filter(active=True)
+        self.assertNotEqual(old_projects, new_projects.count())
+        for project in new_projects:
+            self.assertNotEqual(project.id, id_deleted)
