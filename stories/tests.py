@@ -39,7 +39,25 @@ class SimpleTest(TestCase):
 
     def test_add_project(self):
         "Test the add project page"
+        # Get the projects length before saving
+        old_projects = self.projects.count()
         # Add project should be a post only page
         response_fail = self.client.get('/add/')
         self.assertEqual(response_fail.status_code, 404)
+        # Test a non valid form
+        name_fail = 'Tchululu'
+        response_fail = self.client.post('/add/', {'name':name_fail})
+        self.assertEqual(response_fail.status_code, 200)
+        self.assertContains(response_fail, name_fail)
         # Testing a post form
+        name_added = 'Tchululu'
+        desc_added = 'Lorem ipsum dolor sit amet.'
+        response = self.client.post('/add/', 
+                {'name':name_added, 'description':desc_added}
+        )
+        self.assertRedirects(response, '/')
+        # Test database have actually been updated and check new content
+        new_projects = Project.objects.all().count
+        self.assertNotEqual(old_projects, new_projects)
+        added_project = Project.objects.get(name=name_added)
+        self.assertEqual(added_project.description, desc_added)
