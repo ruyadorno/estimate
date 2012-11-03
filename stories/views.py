@@ -23,6 +23,8 @@ def add_project(request):
             return redirect('stories_index')
         else:
             return add_project_error(request, form)
+    else:
+        raise Http404
 
 def add_project_error(request, form):
     context = RequestContext(request, {
