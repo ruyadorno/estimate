@@ -1,7 +1,7 @@
 from django.test import TestCase
 from django.test.client import Client
 
-from stories.models import Project
+from stories.models import Project, Story
 
 
 class SimpleTest(TestCase):
@@ -63,6 +63,7 @@ class SimpleTest(TestCase):
         self.assertEqual(added_project.description, desc_added)
 
     def test_remove_project(self):
+        "Test removing project"
         # Get the projects length before saving
         old_projects = self.projects.count()
         # Add project should be a post only page
@@ -82,6 +83,7 @@ class SimpleTest(TestCase):
             self.assertNotEqual(project.id, id_deleted)
 
     def test_project_page(self):
+        "Test the project index page"
         # Test non existing page
         response_fail = self.client.get('/project/9999/')
         self.assertEqual(response_fail.status_code, 404)
@@ -97,3 +99,24 @@ class SimpleTest(TestCase):
             for story in project.story_set.all():
                 self.assertContains(response, story.name)
                 self.assertContains(response, story.time)
+
+    def test_change_story_time(self):
+        "Test the form to update a story time"
+        # Should be a post only page
+        response_fail = self.client.get('/change_story_time/')
+        self.assertEqual(response_fail.status_code, 404)
+        # Test a non valid form
+        response_fail = self.client.post('/change_story_time/', {'id':'20'})
+        self.assertEqual(response_fail.status_code, 404)
+        # Testing a post form
+        for project in self.active_projects:
+            for story in project.story_set.all():
+                old_story_time = story.time
+                new_story_time = 24
+                response = self.client.post('/change_story_time/',
+                        {'id':story.id, 'time':new_story_time,}
+                )
+                self.assertRedirects(response, '/project/'+str(project.id)+'/')
+                new_story = Story.objects.get(id=story.id)
+                self.assertNotEqual(old_story_time, new_story.time)
+                self.assertEqual(new_story.time, new_story_time)

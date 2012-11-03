@@ -63,7 +63,7 @@ def change_story_time(request):
         try:
             story_id = request.POST['id']
         except KeyError:
-            return redirect('stories_index')
+            raise Http404
         story = get_object_or_404(Story, id=story_id)
         try:
             time = request.POST['time']
