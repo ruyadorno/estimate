@@ -1,7 +1,7 @@
 from django.test import TestCase
 from django.test.client import Client
 
-from stories.models import Project, Story
+from stories.models import Project
 
 
 class SimpleTest(TestCase):
@@ -80,3 +80,20 @@ class SimpleTest(TestCase):
         self.assertNotEqual(old_projects, new_projects.count())
         for project in new_projects:
             self.assertNotEqual(project.id, id_deleted)
+
+    def test_project_page(self):
+        # Test non existing page
+        response_fail = self.client.get('/project/9999/')
+        self.assertEqual(response_fail.status_code, 404)
+        # Test unactive pages
+        for project in self.unactive_projects:
+            response_fail = self.client.get('/project/'+str(project.id)+'/')
+            self.assertEqual(response_fail.status_code, 404)
+        # Test active pages
+        for project in self.active_projects:
+            response = self.client.get('/project/'+str(project.id)+'/')
+            self.assertEqual(response.status_code, 200)
+            # Check for page's content
+            for story in project.story_set.all():
+                self.assertContains(response, story.name)
+                self.assertContains(response, story.time)

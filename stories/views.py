@@ -48,6 +48,8 @@ def remove_project(request):
 
 def project_page(request, project_id):
     project = get_object_or_404(Project, id=project_id)
+    if not project.active:
+        raise Http404
     stories = Story.objects.filter(project_id=project.id)
     context = RequestContext(request, {
         'project':project,
