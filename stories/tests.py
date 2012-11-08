@@ -131,7 +131,7 @@ class SimpleTest(TestCase):
             # Test a missing field form
             name_fail = 'Tchululu'
             response_fail = self.client.post('/add_story/', {'name':name_fail, 'project':project.id, })
-            self.assertEqual(response_fail.status_code, 302)
+            self.assertRedirects(response_fail, '/project/'+str(project.id)+'/')
             # Testing a post form
             name_added = 'Tchululu'
             time_added = 999
