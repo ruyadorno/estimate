@@ -50,11 +50,21 @@ def project_page(request, project_id):
     project = get_object_or_404(Project, id=project_id)
     if not project.active:
         raise Http404
+    try:
+        error = request.session['error']
+        has_error = True
+        if error['ref'] == 'add_error':
+            form = StoryForm(initial={'name':error['name'], 'time':error['time']})
+    except KeyError:
+        has_error = False
+        form = StoryForm()
+    request.session.flush()
     stories = Story.objects.filter(project_id=project.id)
     context = RequestContext(request, {
         'project':project,
         'stories':stories,
-        'form':StoryForm,
+        'form':form,
+        'error':has_error,
     })
     return render_to_response('project.html', context)
 
@@ -88,8 +98,12 @@ def add_story(request):
             form.save()
             return redirect('project_page', project_id=story.project_id)
         else:
-            #TODO: Return to project page with an error here too
-            raise Http404
+            request.session['error'] = {
+                'ref':'add_error',
+                'name':request.POST.get('name', ''),
+                'time':request.POST.get('time', ''),
+            }
+            return redirect('project_page', project_id=request.POST['project'])
     else:
         raise Http404
 

@@ -8,7 +8,7 @@
 <br clear="all"/>
 <p>{{ project.description }}</p>
 <div class="well" style="margin-top:20px">
-	{% if form.errors %}
+	{% if error or form.errors %}
 	<div class="alert alert-error">
 		<i class="icon-warning-sign icon-white"></i>
 		Have you forgot to add something? Please review your entry below.
@@ -21,7 +21,7 @@
 			<input id="id_name" type="text" name="name" placeholder="Story short description or name" {% if form.name.value %}value="{{ form.name.value }}"{% endif %} style="width:70%" maxlength="100"/>
 		</span>
 		<span class="input-append control-group{% if form.name.errors %} error{% endif %}">
-			<input class="span1" id="id_time" type="text" name="time" placeholder="Time" {% if form.name.value %}value="{{ form.name.value }}"{% endif %} maxlength="6"/>
+			<input class="span1" id="id_time" type="text" name="time" placeholder="Time" {% if form.time.value %}value="{{ form.time.value }}"{% endif %} maxlength="6"/>
 			<input class="btn {% if not form.name.errors %} btn-primary{% endif %}" style="width:10%" type="submit" value="Add"/>
 		</span>
 	</form>

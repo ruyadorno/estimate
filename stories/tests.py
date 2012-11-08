@@ -120,3 +120,28 @@ class SimpleTest(TestCase):
                 new_story = Story.objects.get(id=story.id)
                 self.assertNotEqual(old_story_time, new_story.time)
                 self.assertEqual(new_story.time, new_story_time)
+
+    def test_add_story(self):
+        "Test the add story page"
+        # Add story should be a post only page
+        response_fail = self.client.get('/add_story/')
+        self.assertEqual(response_fail.status_code, 404)
+        for project in self.active_projects:
+            old_stories_len = project.story_set.all().count()
+            # Test a missing field form
+            name_fail = 'Tchululu'
+            response_fail = self.client.post('/add_story/', {'name':name_fail, 'project':project.id, })
+            self.assertEqual(response_fail.status_code, 302)
+            # Testing a post form
+            name_added = 'Tchululu'
+            time_added = 999
+            response = self.client.post('/add_story/', 
+                    {'name':name_added, 'time':time_added, 'project':project.id, }
+            )
+            self.assertRedirects(response, '/project/'+str(project.id)+'/')
+            # Test database have actually been updated and check new content
+            new_stories_len = project.story_set.all().count()
+            self.assertNotEqual(old_stories_len, new_stories_len)
+            added_project = Story.objects.get(name=name_added)
+            self.assertEqual(added_project.time, time_added)
+            added_project.delete()
