@@ -145,3 +145,24 @@ class SimpleTest(TestCase):
             added_project = Story.objects.get(name=name_added)
             self.assertEqual(added_project.time, time_added)
             added_project.delete()
+
+    def test_remove_story(self):
+        "Test removing story"
+        # Add project should be a post only page
+        response_fail = self.client.get('/remove_story/')
+        self.assertEqual(response_fail.status_code, 404)
+        # Test a empty post
+        response_fail = self.client.post('/remove_story/')
+        self.assertRedirects(response_fail, '/')
+        # Test a non existing id
+        response_fail = self.client.post('/remove_story/', {'delete_id':'20'})
+        self.assertEqual(response_fail.status_code, 404)
+        for project in self.active_projects:
+            old_stories_len = project.story_set.all().count()
+            # Testing a post form
+            id_deleted = project.story_set.filter(accepted=True)[0].id
+            response = self.client.post('/remove_story/', {'delete_id':id_deleted})
+            self.assertRedirects(response, '/project/'+str(project.id)+'/')
+            # Test database have actually been updated and check new content
+            new_stories_len = Project.objects.filter(active=True)
+            self.assertNotEqual(old_stories_len, new_stories_len.count())
