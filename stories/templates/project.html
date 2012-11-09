@@ -8,10 +8,15 @@
 <br clear="all"/>
 <p>{{ project.description }}</p>
 <div class="well" style="margin-top:20px">
-	{% if error or form.errors %}
+	{% if error == "add_error" or form.errors %}
 	<div class="alert alert-error">
 		<i class="icon-warning-sign icon-white"></i>
 		Have you forgot to add something? Please review your entry below.
+	</div>
+	{% elif error == "change_story_error" %}
+	<div class="alert alert-error">
+		<i class="icon-warning-sign icon-white"></i>
+		Something went wrong while editing the time of a story.
 	</div>
 	{% endif %}
 	<form action="{% url add_story %}" method="post" style="margin:0">{% csrf_token %}

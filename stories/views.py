@@ -52,11 +52,12 @@ def project_page(request, project_id):
         raise Http404
     try:
         error = request.session['error']
-        has_error = True
         if error['ref'] == 'add_error':
             form = StoryForm(initial={'name':error['name'], 'time':error['time']})
+        else:
+            form = StoryForm()
     except KeyError:
-        has_error = False
+        error = None
         form = StoryForm()
     request.session.flush()
     stories = Story.objects.filter(project_id=project.id)
@@ -64,7 +65,7 @@ def project_page(request, project_id):
         'project':project,
         'stories':stories,
         'form':form,
-        'error':has_error,
+        'error':error['ref'] if error else '',
     })
     return render_to_response('project.html', context)
 
@@ -83,9 +84,12 @@ def change_story_time(request):
         try:
             story.save()
         except Exception:
-            #TODO: Return to the project page adding a custom error message
-            #Actually, that would be a nice behaviour for add/remove actions
-            pass
+            request.session['error'] = {
+                'ref':'change_story_error',
+                'name':request.POST.get('name', ''),
+                'time':request.POST.get('time', ''),
+            }
+            return redirect('project_page', project_id=story.project_id)
         return redirect('project_page', project_id=story.project_id)
     else:
         raise Http404
