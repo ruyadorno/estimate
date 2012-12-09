@@ -12,7 +12,9 @@ Application to help time estimation for digital agencies.
 
 ## Dependencies ##
 
-Django 1.4.1
+[Django 1.4.1](https://www.djangoproject.com/)
+python-openid 2.2
+[django-openid-auth 0.4](https://launchpad.net/django-openid-auth)
 
 ## License ##
 
