@@ -7,7 +7,7 @@ from stories.models import Project, Story
 from stories.forms import ProjectForm, StoryForm
 
 
-@login_required(login_url='/openid/login/')
+@login_required
 def index(request):
     projects = Project.objects.filter(active=True)
     context = RequestContext(request, {
@@ -16,7 +16,7 @@ def index(request):
     })
     return render_to_response('index.html', context)
 
-@login_required(login_url='/openid/login/')
+@login_required
 def add_project(request):
     if request.method == 'POST':
         project = Project(active=True)
@@ -29,7 +29,7 @@ def add_project(request):
     else:
         raise Http404
 
-@login_required(login_url='/openid/login/')
+@login_required
 def add_project_error(request, form):
     context = RequestContext(request, {
         'projects':Project.objects.all(),
@@ -37,7 +37,7 @@ def add_project_error(request, form):
     })
     return render_to_response('index.html', context)
 
-@login_required(login_url='/openid/login/')
+@login_required
 def remove_project(request):
     if request.method == 'POST':
         try:
@@ -51,7 +51,7 @@ def remove_project(request):
     else:
         raise Http404
 
-@login_required(login_url='/openid/login/')
+@login_required
 def project_page(request, project_id):
     project = get_object_or_404(Project, id=project_id)
     if not project.active:
@@ -75,7 +75,7 @@ def project_page(request, project_id):
     })
     return render_to_response('project.html', context)
 
-@login_required(login_url='/openid/login/')
+@login_required
 def change_story_time(request):
     if request.method == 'POST':
         try:
@@ -101,7 +101,7 @@ def change_story_time(request):
     else:
         raise Http404
 
-@login_required(login_url='/openid/login/')
+@login_required
 def add_story(request):
     if request.method == 'POST':
         story = Story(accepted=True)
@@ -119,7 +119,7 @@ def add_story(request):
     else:
         raise Http404
 
-@login_required(login_url='/openid/login/')
+@login_required
 def remove_story(request):
     if request.method == 'POST':
         try:

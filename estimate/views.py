@@ -1,6 +1,17 @@
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render_to_response
+from django.contrib.auth import logout
+from django.shortcuts import render_to_response, redirect
+from django_openid_auth.views import login_begin
 
-@login_required(login_url='/openid/login/')
+from estimate import settings
+
+@login_required
 def home(request):
     return render_to_response('base.html', {})
+
+def login_view(request):
+    return login_begin(request, template_name='login.html')
+
+def logout_view(request):
+    logout(request)
+    return redirect(settings.LOGIN_URL)

@@ -116,7 +116,7 @@ OPENID_UPDATE_DETAILS_FROM_SREG = False
 OPENID_FOLLOW_RENAMES = False
 OPENID_STRICT_USERNAMES = False
 OPENID_USE_EMAIL_FOR_USERNAME = True
-LOGIN_URL = '/openid/login/'
+LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/'
 
 # A sample logging configuration. The only tangible logging
