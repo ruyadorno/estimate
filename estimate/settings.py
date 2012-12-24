@@ -117,7 +117,7 @@ OPENID_FOLLOW_RENAMES = False
 OPENID_STRICT_USERNAMES = False
 OPENID_USE_EMAIL_FOR_USERNAME = True
 LOGIN_URL = '/login/'
-LOGIN_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = '/stories/'
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
