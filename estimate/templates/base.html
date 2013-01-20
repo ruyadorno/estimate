@@ -30,6 +30,8 @@
 					$(e.currentTarget).find('i').removeClass('icon-remove-sign')
 					$(e.currentTarget).find('i').addClass('icon-minus-sign')
 				}
+				e.preventDefault();
+				return false;
 			}
 			$(main);
 		</script>
