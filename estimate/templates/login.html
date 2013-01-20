@@ -36,7 +36,7 @@
 <form name="openid" action="{{ action }}" method="post">{% csrf_token %}
 	<div class="input-append {% if form.id_openid_identifier.errors %} error{% endif %}">
 			<label for="id_openid_identifier">Or use a custom OpenID url:</label><br />
-			<input id="id_openid_identifier" type="text" style="width:300px" class="span1 required openid" name="openid_identifier" maxlength="255">
+			<input id="id_openid_identifier" type="text" class="span1 required openid" name="openid_identifier" maxlength="255" style="width:285px; background: url(http://openid.net/login-bg.gif) no-repeat; background-position: 8px 50%; padding-left: 30px;">
 			<input name="bsignin" class="btn {% if not form.id_openid_identifier.errors %} btn-primary{% endif %}" type="submit" value="{% trans "Sign in" %}">
 	</div>
 	{% if next %}
