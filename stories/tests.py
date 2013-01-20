@@ -19,7 +19,9 @@ class SimpleTest(TestCase):
     def setUp(self):
         "Set up test data"
         self.client = Client()
-        user = User.objects.create_user(self.USERNAME, self.USERMAIL, self.PASSWORD)
+        user = User.objects.create_user(
+                self.USERNAME, self.USERMAIL, self.PASSWORD
+                )
         user.last_name = self.USERLASTNAME
         user.save()
         self.client.login(username=self.USERNAME, password=self.PASSWORD)
@@ -145,13 +147,18 @@ class SimpleTest(TestCase):
             old_stories_len = project.story_set.all().count()
             # Test a missing field form
             name_fail = 'Tchululu'
-            response_fail = self.client.post('/add_story/', {'name':name_fail, 'project':project.id, })
+            response_fail = self.client.post('/add_story/', 
+                    {'name':name_fail, 'project':project.id, })
             self.assertRedirects(response_fail, '/project/'+str(project.id)+'/')
             # Testing a post form
             name_added = 'Tchululu'
             time_added = 999
             response = self.client.post('/add_story/', 
-                    {'name':name_added, 'time':time_added, 'project':project.id, }
+                    {
+                        'name':name_added,
+                        'time':time_added,
+                        'project':project.id,
+                    }
             )
             self.assertRedirects(response, '/project/'+str(project.id)+'/')
             # Test database have actually been updated and check new content
@@ -176,7 +183,8 @@ class SimpleTest(TestCase):
             old_stories_len = project.story_set.all().count()
             # Testing a post form
             id_deleted = project.story_set.filter(accepted=True)[0].id
-            response = self.client.post('/remove_story/', {'delete_id':id_deleted})
+            response = self.client.post('/remove_story/', 
+                    {'delete_id':id_deleted})
             self.assertRedirects(response, '/project/'+str(project.id)+'/')
             # Test database have actually been updated and check new content
             new_stories_len = Project.objects.filter(active=True)

@@ -59,7 +59,9 @@ def project_page(request, project_id):
     try:
         error = request.session['error']
         if error['ref'] == 'add_error':
-            form = StoryForm(initial={'name':error['name'], 'time':error['time']})
+            form = StoryForm(
+                    initial={'name':error['name'], 'time':error['time']}
+                    )
         else:
             form = StoryForm()
     except KeyError:

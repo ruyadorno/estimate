@@ -49,7 +49,8 @@ class SimpleTest(TestCase):
             self.assertEqual(group.user_set.all()[0], request.user)
 
     def _logs_in(self):
-        user = User.objects.create_user(self.USERNAME, self.USERMAIL, self.PASSWORD)
+        user = User.objects.create_user(
+                self.USERNAME, self.USERMAIL, self.PASSWORD)
         user.last_name = self.USERLASTNAME
         user.save()
         self.client.login(username=self.USERNAME, password=self.PASSWORD)
