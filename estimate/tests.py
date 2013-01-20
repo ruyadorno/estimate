@@ -1,8 +1,8 @@
 from django.test import TestCase
 from django.test.client import Client
 from django.http import HttpRequest
-from django.contrib.auth.models import User, Group
 
+from estimate.models import UserProxy, GroupProxy
 from estimate import receivers, settings
 
 
@@ -40,16 +40,16 @@ class SimpleTest(TestCase):
         self.assertRedirects(response, '/login/')
 
     def test_handle_openid_complete(self):
-        group = Group.objects.get(name='Standard')
+        group = GroupProxy.objects.get(name='Standard')
         self.assertEqual(group.user_set.count(), 0)
         request = HttpRequest()
         request.user = self._logs_in()
         receivers.handle_openid_login(request, {})
         if settings.AUTO_CREATE_SUPERUSER:
-            self.assertEqual(group.user_set.all()[0], request.user)
+            self.assertEqual(group.user_set.all()[0].id, request.user.id)
 
     def _logs_in(self):
-        user = User.objects.create_user(
+        user = UserProxy.objects.create_user(
                 self.USERNAME, self.USERMAIL, self.PASSWORD)
         user.last_name = self.USERLASTNAME
         user.save()

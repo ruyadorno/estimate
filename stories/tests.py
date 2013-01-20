@@ -1,7 +1,7 @@
 from django.test import TestCase
 from django.test.client import Client
-from django.contrib.auth.models import User, Group
 
+from estimate.models import UserProxy, GroupProxy
 from stories.models import Project, Story
 
 
@@ -19,12 +19,12 @@ class SimpleTest(TestCase):
     def setUp(self):
         "Set up test data"
         self.client = Client()
-        user = User.objects.create_user(
+        user = UserProxy.objects.create_user(
                 self.USERNAME, self.USERMAIL, self.PASSWORD
                 )
         user.last_name = self.USERLASTNAME
         user.save()
-        group = Group.objects.all()[0]
+        group = GroupProxy.objects.all()[0]
         group.user_set.add(user)
         self.client.login(username=self.USERNAME, password=self.PASSWORD)
         self.testuser = user
@@ -61,8 +61,8 @@ class SimpleTest(TestCase):
         story = self._create_story(self.active_projects[0])
         self.assertNotEqual(story_count, Story.objects.all())
         # Test model getters
-        group = self.testuser.groups.all()[0]
-        modifier = group.groupinfo_set.all()[0].modifier
+        group = GroupProxy.objects.get(id=self.testuser.group.id)
+        modifier = group.modifier
         total_time = story.time*modifier
         self.assertEqual(story.group, group)
         self.assertEqual(story.modifier, modifier)

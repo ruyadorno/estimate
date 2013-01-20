@@ -17,7 +17,7 @@ class UserProxy(User):
             group = self._get_unassigned_group()
         elif self.groups.count()>1:
             logger.warning('User has more than one group assigned: '+self.id)
-        group = self.groups.all()[0]
+        group = GroupProxy.objects.get(id=self.groups.all()[0].id)
         return group
 
     def _get_unassigned_group(self):

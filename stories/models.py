@@ -1,7 +1,7 @@
 import logging
 from django.db import models
 
-from django.contrib.auth.models import User, Group
+from estimate.models import UserProxy, GroupProxy
 
 
 logger = logging.getLogger(__name__)
@@ -30,19 +30,19 @@ class Story(models.Model):
     time = models.DecimalField(max_digits=5, decimal_places=2)
     accepted = models.BooleanField()
     project = models.ForeignKey(Project)
-    user = models.ForeignKey(User)
+    user = models.ForeignKey(UserProxy)
 
     def _get_group(self):
         try:
-            group = self.user.groups.all()[0]
+            group = self.user.group
         except Exception:
             logger.warning(
                 'Could not access the group of a given user'
             )
             try:
-                group = Group.objects.get(name='Standard')
-            except Group.DoesNotExist:
-                group = Group()
+                group = GroupProxy.objects.get(name='Standard')
+            except GroupProxy.DoesNotExist:
+                group = GroupProxy()
         return group
 
     def _get_modifier(self):
