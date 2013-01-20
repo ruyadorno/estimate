@@ -1,3 +1,4 @@
+AUTO_CREATE_SUPERUSER = True
 DEBUG = True
 PATH = ''
 SECRET = ''

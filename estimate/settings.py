@@ -1,6 +1,7 @@
 # Django settings for estimate project.
 import local_settings
 
+AUTO_CREATE_SUPERUSER = local_settings.AUTO_CREATE_SUPERUSER
 DEBUG = local_settings.DEBUG
 TEMPLATE_DEBUG = local_settings.DEBUG
 

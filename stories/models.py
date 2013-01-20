@@ -22,7 +22,7 @@ class Project(models.Model):
 
 class Story(models.Model):
     name = models.CharField(max_length=100)
-    time = models.IntegerField()
+    time = models.DecimalField(max_digits=5, decimal_places=2)
     accepted = models.BooleanField()
     project = models.ForeignKey(Project)
 
