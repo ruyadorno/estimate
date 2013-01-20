@@ -180,7 +180,7 @@
     "pk": 1, 
     "model": "estimate.groupinfo", 
     "fields": {
-      "modifier": "1", 
+      "modifier": "5", 
       "group": 1
     }
   }

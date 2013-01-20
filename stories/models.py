@@ -1,6 +1,10 @@
+import logging
 from django.db import models
-from django.contrib.auth.models import User
 
+from django.contrib.auth.models import User, Group
+
+
+logger = logging.getLogger(__name__)
 
 class Project(models.Model):
     name = models.CharField(max_length=100)
@@ -12,7 +16,7 @@ class Project(models.Model):
             stories = Story.objects.filter(project_id=self.id)
         except Exception:
             return 0
-        times = [story.time for story in stories]
+        times = [(story.total_time) for story in stories]
         return sum(times)
 
     total_time = property(_get_total_time)
@@ -27,6 +31,37 @@ class Story(models.Model):
     accepted = models.BooleanField()
     project = models.ForeignKey(Project)
     user = models.ForeignKey(User)
+
+    def _get_group(self):
+        try:
+            group = self.user.groups.all()[0]
+        except Exception:
+            logger.warning(
+                'Could not access the group of a given user'
+            )
+            try:
+                group = Group.objects.get(name='Standard')
+            except Group.DoesNotExist:
+                group = Group()
+        return group
+
+    def _get_modifier(self):
+        group = self.group
+        try:
+            modifier = group.groupinfo_set.all()[0].modifier
+        except Exception:
+            logger.warning(
+                'Could not access the info of a given group'
+            )
+            modifier = 1
+        return modifier
+
+    def _total_time(self):
+        return self.time*self.modifier
+
+    group = property(_get_group)
+    modifier = property(_get_modifier)
+    total_time = property(_total_time)
 
     def __unicode__(self):
         return self.name

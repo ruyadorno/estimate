@@ -1,6 +1,6 @@
 from django.test import TestCase
 from django.test.client import Client
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 
 from stories.models import Project, Story
 
@@ -24,6 +24,8 @@ class SimpleTest(TestCase):
                 )
         user.last_name = self.USERLASTNAME
         user.save()
+        group = Group.objects.all()[0]
+        group.user_set.add(user)
         self.client.login(username=self.USERNAME, password=self.PASSWORD)
         self.testuser = user
         self.projects = Project.objects.all()
@@ -36,6 +38,46 @@ class SimpleTest(TestCase):
     def test_fixtures(self):
         "Test fixtures are loaded and data is accessible"
         self.assertNotEqual(self.projects.count(), 0)
+
+    def test_project(self):
+        # Test project object creation
+        project_count = Project.objects.count()
+        project = Project.objects.create(
+                name='My test project',
+                description='Lorem ipsum dolor sit amet',
+                active=True,
+                )
+        project.save()
+        self.assertNotEqual(project_count, Project.objects.all())
+        # Test model getters
+        self.assertEqual(project.total_time, 0)
+        # Create 5 dumb stories to test the total time
+        time = [self._create_story(project).total_time for i in range(5)]
+        self.assertEqual(project.total_time, sum(time))
+    
+    def test_story(self):
+        # Test story object creation
+        story_count = Story.objects.count()
+        story = self._create_story(self.active_projects[0])
+        self.assertNotEqual(story_count, Story.objects.all())
+        # Test model getters
+        group = self.testuser.groups.all()[0]
+        modifier = group.groupinfo_set.all()[0].modifier
+        total_time = story.time*modifier
+        self.assertEqual(story.group, group)
+        self.assertEqual(story.modifier, modifier)
+        self.assertEqual(story.total_time, total_time)
+
+    def _create_story(self, proj):
+        story = Story.objects.create(
+                name='Lorem ipsum test',
+                time=5,
+                accepted=True,
+                project=proj,
+                user=self.testuser,
+                )
+        story.save()
+        return story
 
     def test_index(self):
         "Test the loading of index page"
