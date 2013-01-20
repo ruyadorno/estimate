@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 
 class Project(models.Model):
@@ -25,6 +26,7 @@ class Story(models.Model):
     time = models.DecimalField(max_digits=5, decimal_places=2)
     accepted = models.BooleanField()
     project = models.ForeignKey(Project)
+    user = models.ForeignKey(User)
 
     def __unicode__(self):
         return self.name

@@ -23,20 +23,32 @@
 		<input id="id_project" type="hidden" name="project" value="{{ project.id }}"/>
 		<label>Add a new story:</label>
 		<span class="control-group{% if form.description.errors %} error{% endif %}">
-			<input id="id_name" type="text" name="name" placeholder="Story short description or name" {% if form.name.value %}value="{{ form.name.value }}"{% endif %} style="width:70%" maxlength="100"/>
+			<input id="id_name" type="text" name="name" placeholder="Story short description or name" {% if form.name.value %}value="{{ form.name.value }}"{% endif %} style="width:55%" maxlength="100"/>
+		</span>
+		<span class="control-group{% if form.user.errors %} error{% endif %}">
+			<select id="id_user" type="text" name="user" style="width:20%" maxlength="100">
+				{% for user in form.user.field.queryset %}
+					{% if user.first_name != '' %}
+					<option value="{{ user.id }}" {% if user.value %}selected="selected"{% endif %}>{{ user.first_name }} {{ user.last_name }}</option>
+					{% endif %}
+				{% endfor %}
+			</select>
 		</span>
 		<span class="input-append control-group{% if form.name.errors %} error{% endif %}">
-			<input class="span1" id="id_time" type="text" name="time" placeholder="Time" {% if form.time.value %}value="{{ form.time.value }}"{% endif %} maxlength="6"/>
+			<input class="span1" id="id_time" type="text" name="time" placeholder="Time" {% if form.time.value %}value="{{ form.time.value }}"{% endif %} maxlength="6"/ style="width:10%">
 			<input class="btn {% if not form.name.errors %} btn-primary{% endif %}" style="width:10%" type="submit" value="Add"/>
 		</span>
 	</form>
 </div>
 <table class="table">
-<thead><tr><th>#</th><th>Name</th><th>Time</th><th>Options</th></tr></thead>
+	<thead><tr><th>#</th><th>Name</th><th>User</th><th>Time</th><th>Options</th></tr></thead>
 {% for story in stories %}
 <tr>
 	<td width="5%">{{ forloop.counter }}</td>
-	<td>{{ story.name }}</td>
+	<td width="52%">{{ story.name }}</td>
+	<td width="20%">
+		{{ story.user.first_name }} {{ story.user.last_name }}
+	</td>
 	<td style="position:relative">
 		<form action="{% url change_story_time %}" method="post" style="position:absolute;top:3px">{% csrf_token %}
 			<input id="id_id" name="id" value="{{ story.id }}" type="hidden"/>

@@ -60,7 +60,11 @@ def project_page(request, project_id):
         error = request.session['error']
         if error['ref'] == 'add_error':
             form = StoryForm(
-                    initial={'name':error['name'], 'time':error['time']}
+                    initial={
+                        'name':error['name'],
+                        'time':error['time'],
+                        'user':error['user'],
+                        }
                     )
         else:
             form = StoryForm()
@@ -97,6 +101,7 @@ def change_story_time(request):
                 'ref':'change_story_error',
                 'name':request.POST.get('name', ''),
                 'time':request.POST.get('time', ''),
+                'user':request.POST.get('user', ''),
             }
             return redirect('project_page', project_id=story.project_id)
         return redirect('project_page', project_id=story.project_id)
@@ -116,6 +121,7 @@ def add_story(request):
                 'ref':'add_error',
                 'name':request.POST.get('name', ''),
                 'time':request.POST.get('time', ''),
+                'user':request.POST.get('user', ''),
             }
             return redirect('project_page', project_id=request.POST['project'])
     else:

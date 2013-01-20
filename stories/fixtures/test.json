@@ -33,6 +33,8 @@
       "project": 1, 
       "accepted": true, 
       "name": "Lorem ipsum dolor sit amet", 
+      "accepted": true, 
+      "user": 1, 
       "time": 8
     }
   }, 
@@ -43,6 +45,7 @@
       "project": 1, 
       "accepted": true, 
       "name": "The quick brown fox jumps over the lazy dog", 
+      "user": 1, 
       "time": 6
     }
   }, 
@@ -53,6 +56,7 @@
       "project": 2, 
       "accepted": true, 
       "name": "Testing this", 
+      "user": 1, 
       "time": 9
     }
   }, 
@@ -63,6 +67,7 @@
       "project": 2, 
       "accepted": true, 
       "name": "Hey ho hey ho", 
+      "user": 1, 
       "time": 7
     }
   }, 
@@ -73,6 +78,7 @@
       "project": 1, 
       "accepted": true, 
       "name": "LERO LERO", 
+      "user": 1, 
       "time": 3
     }
   }, 
@@ -83,6 +89,7 @@
       "project": 1, 
       "accepted": true, 
       "name": "Testando", 
+      "user": 1, 
       "time": 5
     }
   }, 
@@ -93,6 +100,7 @@
       "project": 1, 
       "accepted": true, 
       "name": "hflhasflhdsaklj dsjdsa ofasj dop", 
+      "user": 1, 
       "time": 4
     }
   }, 
@@ -103,6 +111,7 @@
       "project": 3, 
       "accepted": true, 
       "name": "Hop hop hop", 
+      "user": 1, 
       "time": 3
     }
   }, 
@@ -113,6 +122,7 @@
       "project": 3, 
       "accepted": true, 
       "name": "Hey hey hey", 
+      "user": 1, 
       "time": 2
     }
   }, 
@@ -123,6 +133,7 @@
       "project": 3, 
       "accepted": true, 
       "name": "sup", 
+      "user": 1, 
       "time": 4
     }
   }, 
@@ -133,7 +144,44 @@
       "project": 3, 
       "accepted": true, 
       "name": "lalala", 
+      "user": 1, 
       "time": 6
+    }
+  }, 
+  {
+    "pk": 1, 
+    "model": "auth.user", 
+    "fields": {
+      "username": "openiduser", 
+      "first_name": "Test", 
+      "last_name": "User", 
+      "is_active": true, 
+      "is_superuser": false, 
+      "is_staff": false, 
+      "last_login": "2013-01-20T19:14:50.072Z", 
+      "groups": [
+        1
+      ], 
+      "user_permissions": [], 
+      "password": "!", 
+      "email": "test@test.com", 
+      "date_joined": "2013-01-20T19:14:50.057Z"
+    }
+  },
+  {
+    "pk": 1, 
+    "model": "auth.group", 
+    "fields": {
+      "name": "Standard", 
+      "permissions": []
+    }
+  },
+  {
+    "pk": 1, 
+    "model": "estimate.groupinfo", 
+    "fields": {
+      "modifier": "1", 
+      "group": 1
     }
   }
 ]

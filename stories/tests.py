@@ -130,8 +130,13 @@ class SimpleTest(TestCase):
             for story in project.story_set.all():
                 old_story_time = story.time
                 new_story_time = 24
+                user_story = story.user
                 response = self.client.post('/change_story_time/',
-                        {'id':story.id, 'time':new_story_time,}
+                        {
+                            'id':story.id,
+                            'time':new_story_time,
+                            'user':user_story,
+                        }
                 )
                 self.assertRedirects(response, '/project/'+str(project.id)+'/')
                 new_story = Story.objects.get(id=story.id)
@@ -153,10 +158,12 @@ class SimpleTest(TestCase):
             # Testing a post form
             name_added = 'Tchululu'
             time_added = 999
+            user_added = self.testuser.id
             response = self.client.post('/add_story/', 
                     {
                         'name':name_added,
                         'time':time_added,
+                        'user':user_added,
                         'project':project.id,
                     }
             )
