@@ -48,7 +48,7 @@ class Story(models.Model):
     def _get_modifier(self):
         group = self.group
         try:
-            modifier = group.groupinfo_set.all()[0].modifier
+            modifier = group.modifier
         except Exception:
             logger.warning(
                 'Could not access the info of a given group'

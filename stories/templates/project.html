@@ -1,10 +1,9 @@
 {% extends "base.html" %}
 
 {% block content %}
-<p class="lead"><a href="{% url stories_index %}">Back to projects list</a></p>
 <h1 style="float:left">{{ project.name }}</h1>
 <h2 style="float:right">{{ project.total_time }}</h2>
-<small style="position:absolute;top:45px;right:2px">Time:</small>
+<small style="position:absolute;top:0px;right:2px">Time:</small>
 <br clear="all"/>
 <p>{{ project.description }}</p>
 <div class="well" style="margin-top:20px">
@@ -23,7 +22,7 @@
 		<input id="id_project" type="hidden" name="project" value="{{ project.id }}"/>
 		<label>Add a new story:</label>
 		<span class="control-group{% if form.description.errors %} error{% endif %}">
-			<input id="id_name" type="text" name="name" placeholder="Story short description or name" {% if form.name.value %}value="{{ form.name.value }}"{% endif %} style="width:55%" maxlength="100"/>
+			<input id="id_name" type="text" name="name" placeholder="Story short description or name" {% if form.name.value %}value="{{ form.name.value }}"{% endif %} style="width:55%" maxlength="100" autofocus="autofocus"/>
 		</span>
 		<span class="control-group{% if form.user.errors %} error{% endif %}">
 			<select id="id_user" type="text" name="user" style="width:20%" maxlength="100">
@@ -67,4 +66,5 @@
 </tr>
 {% endfor %}
 </table>
+<p class="lead"><a href="{% url stories_index %}">Back to projects list</a></p>
 {% endblock %}
