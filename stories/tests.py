@@ -1,5 +1,6 @@
 from django.test import TestCase
 from django.test.client import Client
+from django.contrib.auth.models import User
 
 from stories.models import Project, Story
 
@@ -8,13 +9,27 @@ class SimpleTest(TestCase):
 
     urls = 'stories.urls'
     fixtures = ['test.json',]
+    testuser = None
+
+    USERNAME = 'testusername'
+    USERLASTNAME = 'Lastname'
+    USERMAIL = 'testusermail@test.com'
+    PASSWORD = 'testpassword'
 
     def setUp(self):
         "Set up test data"
         self.client = Client()
+        user = User.objects.create_user(self.USERNAME, self.USERMAIL, self.PASSWORD)
+        user.last_name = self.USERLASTNAME
+        user.save()
+        self.client.login(username=self.USERNAME, password=self.PASSWORD)
+        self.testuser = user
         self.projects = Project.objects.all()
         self.active_projects = Project.objects.filter(active=True)
         self.unactive_projects = Project.objects.filter(active=False)
+
+    def tearDown(self):
+        self.testuser.delete()
 
     def test_fixtures(self):
         "Test fixtures are loaded and data is accessible"

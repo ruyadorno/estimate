@@ -65,7 +65,7 @@ def project_page(request, project_id):
     except KeyError:
         error = None
         form = StoryForm()
-    request.session['error'] = None
+    request.session['error'] = {}
     stories = Story.objects.filter(project_id=project.id)
     context = RequestContext(request, {
         'project':project,
