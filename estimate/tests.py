@@ -1,6 +1,9 @@
 from django.test import TestCase
 from django.test.client import Client
-from django.contrib.auth.models import User
+from django.http import HttpRequest
+from django.contrib.auth.models import User, Group
+
+from estimate import receivers, settings
 
 
 class SimpleTest(TestCase):
@@ -36,8 +39,18 @@ class SimpleTest(TestCase):
         response = self.client.get('/logout/')
         self.assertRedirects(response, '/login/')
 
+    def test_handle_openid_complete(self):
+        group = Group.objects.get(name='Standard')
+        self.assertEqual(group.user_set.count(), 0)
+        request = HttpRequest()
+        request.user = self._logs_in()
+        receivers.handle_openid_login(request, {})
+        if settings.AUTO_CREATE_SUPERUSER:
+            self.assertEqual(group.user_set.all()[0], request.user)
+
     def _logs_in(self):
         user = User.objects.create_user(self.USERNAME, self.USERMAIL, self.PASSWORD)
         user.last_name = self.USERLASTNAME
         user.save()
         self.client.login(username=self.USERNAME, password=self.PASSWORD)
+        return user

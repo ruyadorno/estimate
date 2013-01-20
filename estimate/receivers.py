@@ -5,7 +5,7 @@ from django_openid_auth.signals import openid_login_complete
 from estimate import settings
 
 @receiver(openid_login_complete)
-def handle_post_viewed(request, openid_response, **kwargs):
+def handle_openid_login(request, openid_response, **kwargs):
     if settings.AUTO_CREATE_SUPERUSER and _is_first_created_user():
         _create_superuser(request)
 
