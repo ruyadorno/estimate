@@ -238,3 +238,54 @@ class SimpleTest(TestCase):
             # Test database have actually been updated and check new content
             new_stories_len = Project.objects.filter(active=True)
             self.assertNotEqual(old_stories_len, new_stories_len.count())
+
+    def test_edit_story(self):
+        "Test the form to update a story time"
+        # Should be a post only page
+        response_fail = self.client.get('/edit_story/')
+        self.assertEqual(response_fail.status_code, 404)
+        # Test an incomplete form
+        response = self.client.post('/edit_story/',
+                {
+                    'id':14,
+                    'name':'bla',
+                    'project':3,
+                }
+        )
+        self.assertRedirects(response, '/project/3/')
+        self.assertNotEqual(Story.objects.get(id=14).name, 'bla')
+        # Test a inexistent story
+        response_fail = self.client.post('/edit_story/',
+                {
+                    'id':'988',
+                    'name':'bla',
+                    'time':4,
+                    'user':self.testuser.id,
+                    'project':3,
+                }
+        )
+        self.assertEqual(response_fail.status_code, 404)
+        # Testing a post form
+        for project in self.active_projects:
+            for story in project.story_set.all():
+                old_story_name = story.name
+                old_story_time = story.time
+                old_story_user = story.user
+                new_story_name = 'New test name'
+                new_story_time = 24
+                new_story_user = self.testuser.id
+                response = self.client.post('/edit_story/',
+                        {
+                            'id':story.id,
+                            'name':new_story_name,
+                            'time':new_story_time,
+                            'user':new_story_user,
+                            'project':project.id,
+                        }
+                )
+                self.assertRedirects(response, '/project/'+str(project.id)+'/')
+                new_story = Story.objects.get(id=story.id)
+                self.assertNotEqual(old_story_name, new_story.name)
+                self.assertNotEqual(old_story_time, new_story.time)
+                self.assertNotEqual(old_story_user, new_story.user)
+                self.assertEqual(new_story.time, new_story_time)

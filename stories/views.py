@@ -61,6 +61,7 @@ def project_page(request, project_id):
         if error['ref'] == 'add_error':
             form = StoryForm(
                     initial={
+                        'id':error['id'],
                         'name':error['name'],
                         'time':error['time'],
                         'user':error['user'],
@@ -138,5 +139,29 @@ def remove_story(request):
         project_id = story.project_id
         story.delete()
         return redirect('project_page', project_id=project_id)
+    else:
+        raise Http404
+
+@login_required
+def edit_story(request):
+    if request.method == 'POST':
+        edit_id = request.POST.get('id', 0)
+        try:
+            story = Story.objects.get(id=edit_id)
+        except Story.DoesNotExist:
+            raise Http404
+        form = StoryForm(request.POST, instance=story)
+        if form.is_valid():
+            form.save()
+            return redirect('project_page', project_id=story.project_id)
+        else:
+            request.session['error'] = {
+                'ref':'edit_error',
+                'id':request.POST.get('id', ''),
+                'name':request.POST.get('name', ''),
+                'time':request.POST.get('time', ''),
+                'user':request.POST.get('user', ''),
+            }
+            return redirect('project_page', project_id=request.POST['project'])
     else:
         raise Http404
