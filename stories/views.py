@@ -3,6 +3,7 @@ from django.shortcuts import redirect, render_to_response, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.template import RequestContext
 
+from estimate.models import UserProxy
 from stories.models import Project, Story
 from stories.forms import ProjectForm, StoryForm
 
@@ -58,7 +59,25 @@ def project_page(request, project_id):
         raise Http404
     try:
         error = request.session['error']
-        if error['ref'] == 'add_error':
+    except KeyError:
+        error = None
+    form = _get_form(request, error, 'add_error')
+    edit_form = _get_form(request, error, 'edit_error')
+    request.session['error'] = {}
+    stories = Story.objects.filter(project_id=project.id)
+    context = RequestContext(request, {
+        'project':project,
+        'stories':stories,
+        'form':form,
+        'edit_form':edit_form,
+        'error':error['ref'] if error else '',
+        'users':UserProxy.objects.all()
+    })
+    return render_to_response('project.html', context)
+
+def _get_form(request, error, error_ref):
+    try:
+        if error['ref'] == error_ref:
             form = StoryForm(
                     initial={
                         'id':error['id'],
@@ -70,17 +89,8 @@ def project_page(request, project_id):
         else:
             form = StoryForm()
     except KeyError:
-        error = None
         form = StoryForm()
-    request.session['error'] = {}
-    stories = Story.objects.filter(project_id=project.id)
-    context = RequestContext(request, {
-        'project':project,
-        'stories':stories,
-        'form':form,
-        'error':error['ref'] if error else '',
-    })
-    return render_to_response('project.html', context)
+    return form
 
 @login_required
 def change_story_time(request):

@@ -13,6 +13,7 @@
 		<script>
 			function main(){
 				$('.toggle-options').click(onToggleOptions);
+				$('.story').click(onStoryClicked);
 			}
 			function onToggleOptions(e){
 				if($(e.currentTarget).find('i').hasClass('icon-minus-sign')){
@@ -30,6 +31,16 @@
 					$(e.currentTarget).find('i').removeClass('icon-remove-sign')
 					$(e.currentTarget).find('i').addClass('icon-minus-sign')
 				}
+				e.preventDefault();
+				return false;
+			}
+			function onStoryClicked(e){
+				var story = $(e.currentTarget);
+				$('#id_edit_id').val(story.find('input[name=id]').val());
+				$('#id_edit_name').val(story.find('.story-name').text());
+				$('#id_edit_time').val(story.find('input[name=time]').val());
+				$('#id_edit_user').val(story.find('.story-user').data('userid'));
+				$('#edit_opt').show();
 				e.preventDefault();
 				return false;
 			}
