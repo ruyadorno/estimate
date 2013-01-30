@@ -12,11 +12,6 @@
 		<i class="icon-warning-sign icon-white"></i>
 		Have you forgot to add something? Please review your entry below.
 	</div>
-	{% elif error == "change_story_error" %}
-	<div class="alert alert-error">
-		<i class="icon-warning-sign icon-white"></i>
-		Something went wrong while editing the time of a story.
-	</div>
 	{% endif %}
 	<form action="{% url add_story %}" method="post" style="margin:0">{% csrf_token %}
 		<input id="id_project" type="hidden" name="project" value="{{ project.id }}"/>
@@ -39,6 +34,12 @@
 		</span>
 	</form>
 </div>
+{% if error == "change_story_error" %}
+<div class="alert alert-error">
+	<i class="icon-warning-sign icon-white"></i>
+	Something went wrong while editing the time of a story.
+</div>
+{% endif %}
 <table class="table table-hover">
 	<thead><tr><th>#</th><th>Name</th><th>User</th><th>Time</th><th>Options</th></tr></thead>
 {% for story in stories %}
