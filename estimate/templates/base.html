@@ -36,11 +36,13 @@
 			}
 			function onStoryClicked(e){
 				var story = $(e.currentTarget);
+				var editDiv = $('#edit_opt');
 				$('#id_edit_id').val(story.find('input[name=id]').val());
 				$('#id_edit_name').val(story.find('.story-name').text());
 				$('#id_edit_time').val(story.find('input[name=time]').val());
 				$('#id_edit_user').val(story.find('.story-user').data('userid'));
-				$('#edit_opt').show();
+				editDiv.css('top', story.position().top-28);
+				editDiv.show();
 				e.preventDefault();
 				return false;
 			}
