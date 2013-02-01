@@ -35,6 +35,7 @@ class SimpleTest(TestCase):
         self.assertContains(response, 'openid')
 
     def test_logout(self):
+        "Test logout"
         self._logs_in()
         response = self.client.get('/logout/')
         self.assertRedirects(response, '/login/')
@@ -47,6 +48,40 @@ class SimpleTest(TestCase):
         receivers.handle_openid_login(request, {})
         if settings.AUTO_CREATE_SUPERUSER:
             self.assertEqual(group.user_set.all()[0].id, request.user.id)
+
+    def test_user(self):
+        "Test the users page"
+        user = self._logs_in()
+        # Fail when provide no user id
+        response_fail = self.client.get('/user/')
+        self.assertEqual(response_fail.status_code, 404)
+        # Get user page successfully
+        response = self.client.get('/user/%s' % user.id)
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, user.id)
+        self.assertContains(response, user.first_name)
+        self.assertContains(response, user.last_name)
+        self.assertContains(response, user.email)
+        new_first_name = 'Lorem'
+        new_last_name = 'Ipsum'
+        new_email = 'teste@teste.com'
+        # Successfull update user data
+        response = self.client.post('/user/%s' % user.id,
+                {
+                    'first_name':new_first_name,
+                    'last_name':new_last_name,
+                    'email':new_email,
+                }
+        )
+        self.assertEqual(response.status_code, 200)
+        user = UserProxy.objects.get(id=user.id)
+        self.assertEqual(user.first_name, new_first_name)
+        self.assertEqual(user.last_name, new_last_name)
+        self.assertEqual(user.email, new_email)
+        self.assertContains(response, user.id)
+        self.assertContains(response, user.first_name)
+        self.assertContains(response, user.last_name)
+        self.assertContains(response, user.email)
 
     def _logs_in(self):
         user = UserProxy.objects.create_user(

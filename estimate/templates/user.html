@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>{{ user.first_name }} {{ user.last_name }}</h1>
+	{% if form.errors %}
+	<div class="alert alert-error">
+		<i class="icon-warning-sign icon-white"></i>
+		Something went wrong while updating your profile.
+	</div>
+	{% endif %}
+	<form action="{% url user user.id %}" method="post" style="margin:0">{% csrf_token %}
+		<label>First name:</label>
+		<span class="control-group{% if form.first_name.errors %} error{% endif %}">
+			<input type="text" name="first_name" {% if form.first_name.value %}value="{{ form.first_name.value }}"{% endif %} maxlength="30"/>
+		</span>
+		<label>Last name:</label>
+		<span class="control-group{% if form.last_name.errors %} error{% endif %}">
+			<input type="text" name="last_name" {% if form.last_name.value %}value="{{ form.last_name.value }}"{% endif %} maxlength="30"/>
+		</span>
+		<label>E-mail:</label>
+		<span class="control-group{% if form.email.errors %} error{% endif %}">
+			<input type="text" name="email" {% if form.email.value %}value="{{ form.email.value }}"{% endif %} maxlength="64"/>
+		</span>
+		<br/>
+		<input class="btn {% if not form.errors %} btn-primary{% endif %}" style="width:10%" type="submit" value="Update"/>
+	</form>
+{% endblock %}
