@@ -1,4 +1,3 @@
-import receivers #Activate the signal receivers, used on user registration
 from django.conf.urls import patterns, url
 
 urlpatterns = patterns('',
