@@ -14,6 +14,7 @@
 			function main(){
 				$('.toggle-options').click(onToggleOptions);
 				$('.story').click(onStoryClicked);
+				$('#edit_opt .close-btn').click(onCloseStory);
 			}
 			function onToggleOptions(e){
 				if($(e.currentTarget).find('i').hasClass('icon-minus-sign')){
@@ -45,6 +46,13 @@
 				editDiv.show();
 				e.preventDefault();
 				return false;
+			}
+			function onCloseStory(e){
+				$('#id_edit_id').val('');
+				$('#id_edit_name').val('');
+				$('#id_edit_time').val('');
+				$('#id_edit_user').val('');
+				$('#edit_opt').hide();
 			}
 			$(main);
 		</script>
