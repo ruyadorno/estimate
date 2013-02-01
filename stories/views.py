@@ -88,7 +88,7 @@ def _get_form(request, error, error_ref):
                     )
         else:
             form = StoryForm()
-    except KeyError:
+    except (TypeError, KeyError):
         form = StoryForm()
     return form
 
