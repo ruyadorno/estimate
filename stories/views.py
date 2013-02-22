@@ -1,6 +1,7 @@
 from django.http import Http404
 from django.shortcuts import redirect, render_to_response, get_object_or_404
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import Permission
 from django.template import RequestContext
 
 from estimate.models import UserProxy
@@ -54,6 +55,8 @@ def remove_project(request):
 
 @login_required
 def project_page(request, project_id):
+    if not request.user.has_perm('stories.change_project'):
+        raise Http404
     project = get_object_or_404(Project, id=project_id)
     if not project.active:
         raise Http404

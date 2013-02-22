@@ -14,11 +14,10 @@ class UserProxy(User):
 
     def _group(self):
         if self.groups.count()<1:
-            group = self._get_unassigned_group()
+            self._get_unassigned_group()
         elif self.groups.count()>1:
             logger.warning('User has more than one group assigned: '+self.id)
-        group = GroupProxy.objects.get(id=self.groups.all()[0].id)
-        return group
+        return self.groups.all()[0]
 
     def _get_unassigned_group(self):
         try:
@@ -29,7 +28,6 @@ class UserProxy(User):
             except Exception:
                 logger.error('No groups found for the given user: '+self.id)
         group.user_set.add(self)
-        return group
 
     def _modifier(self):
         return self.group.modifier

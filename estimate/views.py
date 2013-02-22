@@ -32,20 +32,34 @@ def user(request, user_id):
         form = UserForm(request.POST, instance=user)
         if form.is_valid():
             form.save()
+            user = UserProxy.objects.get(id=user_id)
     else:
         user = get_object_or_404(UserProxy, id=user_id)
-        form = UserForm({
-            'id':user.id,
-            'first_name':user.first_name,
-            'last_name':user.last_name,
-            'email':user.email,
-            })
-    context = RequestContext(request, {
-        'user':user,
-        'form':form
-    })
-    return render_to_response('user.html', context)
+        form = _get_user_form(user, request.user==user)
+    return _render_user_page(request, user, form)
 
 @login_required
 def user_page(request):
-    pass
+    form = _get_user_form(request.user, True)
+    return _render_user_page(request, request.user, form)
+
+def _get_user_form(user, is_self=False):
+    form = UserForm({
+        'id':user.id,
+        'first_name':user.first_name,
+        'last_name':user.last_name,
+        'email':user.email,
+        'is_active':user.is_active,
+        'is_superuser':user.is_superuser,
+        'groups':user.groups.all(),
+        'is_me':is_self,
+        })
+    return form
+
+def _render_user_page(request, user, form):
+    context = RequestContext(request, {
+        'user':user,
+        'form':form,
+        'show_hidden_fields':request.user.is_superuser,
+    })
+    return render_to_response('user.html', context)

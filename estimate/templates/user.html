@@ -21,6 +21,20 @@
 		<span class="control-group{% if form.email.errors %} error{% endif %}">
 			<input type="text" name="email" {% if form.email.value %}value="{{ form.email.value }}"{% endif %} maxlength="64"/>
 		</span>
+		{% if show_hidden_fields %}
+		<label>Active:</label>
+		<span class="control-group{% if form.is_active.errors %} error{% endif %}">
+			<input type="checkbox" name="is_active" {% if form.is_active.value %}checked="checked"{% endif %}/>
+		</span>
+		{% if not is_me %}
+		<label>Super user:</label>
+		<span class="control-group{% if form.is_superuser.errors %} error{% endif %}">
+			<input type="checkbox" name="is_active" {% if form.is_superuser.value %}checked="checked"{% endif %}/>
+		</span>
+		{% endif %}
+		<label>Groups:</label>
+		{{ form.groups }}
+		{% endif %}
 		<br/>
 		<input class="btn {% if not form.errors %} btn-primary{% endif %}" style="width:10%" type="submit" value="Update"/>
 	</form>

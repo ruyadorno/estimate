@@ -83,6 +83,20 @@ class SimpleTest(TestCase):
         self.assertContains(response, user.last_name)
         self.assertContains(response, user.email)
 
+    def test_user_page(self):
+        "Test the /me/ page"
+        # Fail when user is not logged in
+        response_fail = self.client.get('/me/')
+        self.assertRedirects(response_fail, '/login/?next=/me/')
+        # Test user successfully see its page
+        user = self._logs_in()
+        response = self.client.get('/me/')
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, user.id)
+        self.assertContains(response, user.first_name)
+        self.assertContains(response, user.last_name)
+        self.assertContains(response, user.email)
+
     def _logs_in(self):
         user = UserProxy.objects.create_user(
                 self.USERNAME, self.USERMAIL, self.PASSWORD)

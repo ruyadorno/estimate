@@ -8,13 +8,9 @@ class UserForm(forms.ModelForm):
         model = UserProxy
         exclude = (
                 'date_joined',
-                'groups',
                 'last_login',
-                'is_active',
                 'is_authenticated',
                 'is_staff',
-                'is_superuser',
                 'password',
-                'user_permissions',
                 'username', 
                 )
