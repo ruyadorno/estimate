@@ -8,7 +8,7 @@
 		Something went wrong while updating your profile.
 	</div>
 	{% endif %}
-	<form action="{% url user user.id %}" method="post" style="margin:0">{% csrf_token %}
+	<form action="{% url 'user' user.id %}" method="post" style="margin:0">{% csrf_token %}
 		<label>First name:</label>
 		<span class="control-group{% if form.first_name.errors %} error{% endif %}">
 			<input type="text" name="first_name" {% if form.first_name.value %}value="{{ form.first_name.value }}"{% endif %} maxlength="30"/>
@@ -29,7 +29,7 @@
 		{% if not is_me %}
 		<label>Super user:</label>
 		<span class="control-group{% if form.is_superuser.errors %} error{% endif %}">
-			<input type="checkbox" name="is_active" {% if form.is_superuser.value %}checked="checked"{% endif %}/>
+			<input type="checkbox" name="is_superuser" {% if form.is_superuser.value %}checked="checked"{% endif %}/>
 		</span>
 		{% endif %}
 		<label>Groups:</label>

@@ -51,7 +51,7 @@ def _get_user_form(user, is_self=False):
         'email':user.email,
         'is_active':user.is_active,
         'is_superuser':user.is_superuser,
-        'groups':user.groups.all(),
+        'groups':[x.id for x in user.groups.all()],
         'is_me':is_self,
         })
     return form

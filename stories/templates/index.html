@@ -6,14 +6,14 @@
 	<thead><tr><th>#</th><th>Name</th><th>Time</th><th>Options</th></tr></thead>
 {% for project in projects %}
 <tr>
-	<td width="5%"><a href="{% url project_page project.id %}">{{ forloop.counter }}</a></td>
-	<td><a href="{% url project_page project.id %}">{{ project.name }}</a></td>
+	<td width="5%"><a href="{% url 'project_page' project.id %}">{{ forloop.counter }}</a></td>
+	<td><a href="{% url 'project_page' project.id %}">{{ project.name }}</a></td>
 	<td width="10%">{{ project.total_time }}</td>
 	<td width="12%" style="position:relative">
 		<a class="toggle-options" style="position:absolute;top:9px;left:30px" href="#">
 			<i class="icon-minus-sign"></i>
 		</a>
-		<form action="{% url stories_remove_project %}" method="post" style="position:absolute;top:3px;left:30px;width:0px;overflow:hidden">{% csrf_token %}
+		<form action="{% url 'stories_remove_project' %}" method="post" style="position:absolute;top:3px;left:30px;width:0px;overflow:hidden">{% csrf_token %}
 			<input id="id_delete_id" name="delete_id" value="{{ project.id }}" type="hidden"/>
 			<input class="btn btn-danger" type="submit" value="Delete"/>
 		</form>
@@ -28,7 +28,7 @@
 		Have you forgot to add something? Please review your entry below.
 	</div>
 	{% endif %}
-	<form action="{% url stories_add_project %}" method="post" style="margin:0">{% csrf_token %}
+	<form action="{% url 'stories_add_project' %}" method="post" style="margin:0">{% csrf_token %}
 		<label>Add a new project:</label>
 		<span class="control-group{% if form.description.errors %} error{% endif %}">
 			<input id="id_name" name="name" rows="1" type="text" placeholder="Project Name" {% if form.description.value %}value="{{ form.name.value }}"{% endif %} style="height:20px;width:30%" autofocus="autofocus"/>
