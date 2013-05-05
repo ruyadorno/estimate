@@ -2,25 +2,18 @@
 
 {% block content %}
 <h1>Groups</h1>
-{% if not is_superuser %}
-<div class="alert alert-error">
-	<i class="icon-warning-sign icon-white"></i>
-	You need to have administrator privileges to access this page.
-</div>
-{% else $}
 <table class="table table-hover">
 	<thead><tr><th>#</th><th>Name</th><th>Users</th></tr></thead>
 {% for group in groups %}
 <tr class="group">
 	<td class="group-num" width="5%">{{ group.id }}</td>
-	<td class="group-name" width="52%">{{ group.name }}</td>
-	<td class="group-user" width="20%">
+	<td class="group-name" width="20%">{{ group.name }}</td>
+	<td class="group-user" width="52%">
 		{% for user in group.user_set.all %}
-			{{ user.first_name }}, 
+			{{ user.first_name }}{% if not forloop.last %},{% endif %}
 		{% endfor %}
 	</td>
 </tr>
 {% endfor %}
 </table>
-{% endif %}
 {% endblock %}

@@ -11,6 +11,7 @@ from estimate import settings
 from estimate.forms import UserForm
 from estimate.models import UserProxy, GroupProxy
 
+
 @login_required
 def home(request):
     return redirect('stories_index')
