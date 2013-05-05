@@ -1,4 +1,4 @@
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth import logout
 from django.shortcuts import redirect
 from django.template import RequestContext
@@ -9,7 +9,7 @@ from django_openid_auth.views import login_begin
 
 from estimate import settings
 from estimate.forms import UserForm
-from estimate.models import UserProxy
+from estimate.models import UserProxy, GroupProxy
 
 @login_required
 def home(request):
@@ -63,3 +63,25 @@ def _render_user_page(request, user, form):
         'show_hidden_fields':request.user.is_superuser,
     })
     return render_to_response('user.html', context)
+
+@login_required
+def groups(request):
+    context = RequestContext(request, {
+        'groups':GroupProxy.objects.all(),
+        'is_superuser':request.user.is_superuser,
+    })
+    return render_to_response('groups.html', context)
+
+@login_required
+def group(request, group_id):
+    pass
+
+@login_required
+@permission_required('auth.add_groupproxy', login_url='/login/')
+def add_group(request):
+    pass
+
+@login_required
+@permission_required('auth.delete_groupproxy', login_url='/login/')
+def remove_group(request):
+    pass

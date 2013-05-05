@@ -21,6 +21,7 @@ class SimpleTest(TestCase):
 
     def test_index(self):
         "Test the loading of index page"
+        self._test_url_notloggedin('/')
         response = self.client.get('/')
         self.assertRedirects(response, '/login/?next=/')
         self._logs_in()
@@ -85,9 +86,7 @@ class SimpleTest(TestCase):
 
     def test_user_page(self):
         "Test the /me/ page"
-        # Fail when user is not logged in
-        response_fail = self.client.get('/me/')
-        self.assertRedirects(response_fail, '/login/?next=/me/')
+        self._test_url_notloggedin('/me/')
         # Test user successfully see its page
         user = self._logs_in()
         response = self.client.get('/me/')
@@ -97,9 +96,30 @@ class SimpleTest(TestCase):
         self.assertContains(response, user.last_name)
         self.assertContains(response, user.email)
 
+    def test_groups_page(self):
+        "Test the /groups/ page"
+        self._test_url_notloggedin('/groups/')
+        # Test page loading
+        user = self._logs_in()
+        group = GroupProxy.objects.get(name='Standard')
+        user.groups.add(group)
+        response = self.client.get('/groups/')
+        self.assertEqual(response.status_code, 200)
+        # Test success listing of groups
+        groups = GroupProxy.objects.all()
+        for group in groups:
+            self.assertContains(response, group.name)
+            for user in group.user_set.all():
+                self.assertContains(response, user.first_name)
+
+    def _test_url_notloggedin(self, url):
+        response_fail = self.client.get(url)
+        self.assertRedirects(response_fail, '/login/?next='+url)
+
     def _logs_in(self):
         user = UserProxy.objects.create_user(
                 self.USERNAME, self.USERMAIL, self.PASSWORD)
+        user.first_name = self.USERNAME
         user.last_name = self.USERLASTNAME
         user.save()
         self.client.login(username=self.USERNAME, password=self.PASSWORD)

@@ -8,5 +8,7 @@ urlpatterns = patterns('',
     url(r'^login/$', 'estimate.views.login_view', name='login'),
     url(r'^logout/$', 'estimate.views.logout_view', name='logout'),
     url(r'^user/(?P<user_id>\d+)$', 'estimate.views.user', name='user'),
+    url(r'^groups/$', 'estimate.views.groups', name='groups'),
+    url(r'^group/(?P<group_id>\d+)$', 'estimate.views.group', name='group'),
     url(r'^me/$', 'estimate.views.user_page', name='user_page'),
 )
