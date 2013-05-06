@@ -112,6 +112,57 @@ class SimpleTest(TestCase):
             for user in group.user_set.all():
                 self.assertContains(response, user.first_name)
 
+    def test_group_page(self):
+        "Test the group detail page"
+        self._test_url_notloggedin('/group/1/')
+        # Test user successfully see its page
+        self._logs_in()
+        groups = GroupProxy.objects.all()
+        for group in groups:
+            response = self.client.get('/group/'+group.id)
+            self.assertEqual(response.status_code, 200)
+            self.assertContains(response, group.name)
+            for perm in group.permissions.all():
+                self.assertContains(response, perm.name)
+            for user in group.user_set.all():
+                self.assertContains(response, user.first_name)
+
+    def test_add_group(self):
+        "Test the creation of a new group"
+        # Get shouldn't work
+        response_fail = self.client.get('/add_group/')
+        self.assertEqual(response_fail.status_code, 404)
+        # Create a new group
+        group_count = GroupProxy.objects.count()
+        name_added = 'Tchululu Group'
+        response = self.client.post('/add_group/', { 'name':name_added, })
+        self.assertRedirects(response, '/groups/')
+        # Test database have actually been updated and check new content
+        new_group_count = GroupProxy.objects.all().count()
+        self.assertNotEqual(group_count, new_group_count)
+        added_group = GroupProxy.objects.get(name=name_added)
+        self.assertEqual(name_added, added_group.name)
+
+    def test_remove_group(self):
+        "Test removing a group"
+        # Remove group should be a post only page
+        response_fail = self.client.get('/remove_group/')
+        self.assertEqual(response_fail.status_code, 404)
+        # Test an empty post
+        group_count = GroupProxy.objects.count()
+        response_fail = self.client.post('/remove_group/')
+        self.assertRedirects(response_fail, '/groups/')
+        self.assertEqual(group_count, GroupProxy.objects.count())
+        # Test a non existing id
+        response_fail = self.client.post('/remove_group/', {'delete_id':'20'})
+        self.assertEqual(response_fail.status_code, 404)
+        # Actually delete a post and test it
+        id_deleted = GroupProxy.objects.all()[0].id
+        response = self.client.post('/remove_group/', {'delete_id':id_deleted})
+        self.assertRedirects(response, '/groups/')
+        # Test database have actually been updated and check content
+        self.assertNotEqual(group_count, GroupProxy.objects.count())
+
     def _test_url_notloggedin(self, url):
         response_fail = self.client.get(url)
         self.assertRedirects(response_fail, '/login/?next='+url)

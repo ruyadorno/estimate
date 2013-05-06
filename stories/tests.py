@@ -222,10 +222,10 @@ class SimpleTest(TestCase):
 
     def test_remove_story(self):
         "Test removing story"
-        # Add project should be a post only page
+        # Remove project should be a post only page
         response_fail = self.client.get('/remove_story/')
         self.assertEqual(response_fail.status_code, 404)
-        # Test a empty post
+        # Test an empty post
         response_fail = self.client.post('/remove_story/')
         self.assertRedirects(response_fail, '/')
         # Test a non existing id
