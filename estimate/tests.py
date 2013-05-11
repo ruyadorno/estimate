@@ -146,7 +146,9 @@ class SimpleTest(TestCase):
 
     def test_remove_group(self):
         "Test removing a group"
+        self._test_url_notloggedin('/add_group/')
         # Remove group should be a post only page
+        self._logs_in()
         response_fail = self.client.get('/remove_group/')
         self.assertEqual(response_fail.status_code, 404)
         # Test an empty post

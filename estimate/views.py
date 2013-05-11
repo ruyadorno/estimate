@@ -94,7 +94,16 @@ def add_group(request):
 @login_required
 @permission_required('auth.delete_groupproxy', login_url='/login/')
 def remove_group(request):
-    pass
+    if request.method == 'POST':
+        try:
+            delete_id = request.POST['delete_id']
+        except KeyError:
+            return redirect('groups')
+        group = get_object_or_404(GroupProxy, id=delete_id)
+        group.delete()
+        return redirect('groups')
+    else:
+        raise Http404
 
 def _add_group_error(request, form):
     context = RequestContext(request, {
