@@ -1,6 +1,6 @@
 from django import forms
 
-from estimate.models import UserProxy
+from estimate.models import UserProxy, GroupProxy
 
 
 class UserForm(forms.ModelForm):
@@ -14,3 +14,7 @@ class UserForm(forms.ModelForm):
                 'password',
                 'username', 
                 )
+
+class GroupForm(forms.ModelForm):
+    class Meta:
+        model = GroupProxy

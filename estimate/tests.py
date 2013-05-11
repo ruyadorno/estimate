@@ -1,6 +1,7 @@
 from django.test import TestCase
 from django.test.client import Client
 from django.http import HttpRequest
+from django.contrib.auth.models import Permission
 
 from estimate.models import UserProxy, GroupProxy
 from estimate import receivers, settings
@@ -101,8 +102,6 @@ class SimpleTest(TestCase):
         self._test_url_notloggedin('/groups/')
         # Test page loading
         user = self._logs_in()
-        group = GroupProxy.objects.get(name='Standard')
-        user.groups.add(group)
         response = self.client.get('/groups/')
         self.assertEqual(response.status_code, 200)
         # Test success listing of groups
@@ -129,7 +128,9 @@ class SimpleTest(TestCase):
 
     def test_add_group(self):
         "Test the creation of a new group"
+        self._test_url_notloggedin('/add_group/')
         # Get shouldn't work
+        self._logs_in()
         response_fail = self.client.get('/add_group/')
         self.assertEqual(response_fail.status_code, 404)
         # Create a new group
@@ -172,6 +173,10 @@ class SimpleTest(TestCase):
                 self.USERNAME, self.USERMAIL, self.PASSWORD)
         user.first_name = self.USERNAME
         user.last_name = self.USERLASTNAME
+        group = GroupProxy.objects.get(name='Standard')
+        for perm in Permission.objects.all():
+            group.permissions.add(perm)
+        user.groups.add(group)
         user.save()
         self.client.login(username=self.USERNAME, password=self.PASSWORD)
         return user

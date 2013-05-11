@@ -8,7 +8,7 @@ from django.http import Http404
 from django_openid_auth.views import login_begin
 
 from estimate import settings
-from estimate.forms import UserForm
+from estimate.forms import UserForm, GroupForm
 from estimate.models import UserProxy, GroupProxy
 
 
@@ -80,9 +80,25 @@ def group(request, group_id):
 @login_required
 @permission_required('auth.add_groupproxy', login_url='/login/')
 def add_group(request):
-    pass
+    if request.method == 'POST':
+        group = GroupProxy()
+        form = GroupForm(request.POST, instance=group)
+        if form.is_valid():
+            form.save()
+            return redirect('groups')
+        else:
+            return _add_group_error(request, form)
+    else:
+        raise Http404
 
 @login_required
 @permission_required('auth.delete_groupproxy', login_url='/login/')
 def remove_group(request):
     pass
+
+def _add_group_error(request, form):
+    context = RequestContext(request, {
+        'groups':GroupProxy.objects.all(),
+        'form':form,
+    })
+    return render_to_response('groups.html', context)
