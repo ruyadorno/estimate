@@ -51,6 +51,17 @@ class SimpleTest(TestCase):
         if settings.AUTO_CREATE_SUPERUSER:
             self.assertEqual(group.user_set.all()[0].id, request.user.id)
 
+    def test_users_page(self):
+        "Test the /users/ page"
+        self._test_url_notloggedin('/users/')
+        # Test page loading
+        user = self._logs_in()
+        response = self.client.get('/users/')
+        self.assertEqual(response.status_code, 200)
+        # Test success listing of users
+        for user in UserProxy.objects.all():
+            self.assertContains(response, user.first_name)
+
     def test_user(self):
         "Test the users page"
         user = self._logs_in()

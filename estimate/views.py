@@ -24,6 +24,13 @@ def logout_view(request):
     return redirect(settings.LOGIN_URL)
 
 @login_required
+def users(request):
+    context = RequestContext(request, {
+        'users':UserProxy.objects.all(),
+    })
+    return render_to_response('users.html', context)
+
+@login_required
 def user(request, user_id):
     if request.method == 'POST':
         try:

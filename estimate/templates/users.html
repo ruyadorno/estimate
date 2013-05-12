@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Users</h1>
+<table class="table table-hover">
+	<thead><tr><th>#</th><th>Name</th><th>Groups</th></tr></thead>
+{% for user in users %}
+<tr class="group">
+	<td class="group-num" width="5%"><a href="{% url 'user' user.id %}">{{ user.id }}</a></td>
+	<td class="group-name" width="20%"><a href="{% url 'user' user.id %}">{{ user.first_name }} {{ user.last_name }}</a></td>
+	<td class="group-user" width="52%">
+		{% for group in user.groups.all %}
+		<a href="{% url 'group' group.id %}">{{ group.name }}</a>{% if not forloop.last %},{% endif %}
+		{% endfor %}
+	</td>
+</tr>
+{% endfor %}
+</table>
+{% endblock %}
