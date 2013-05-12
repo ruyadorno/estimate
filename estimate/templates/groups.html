@@ -6,8 +6,8 @@
 	<thead><tr><th>#</th><th>Name</th><th>Users</th></tr></thead>
 {% for group in groups %}
 <tr class="group">
-	<td class="group-num" width="5%">{{ group.id }}</td>
-	<td class="group-name" width="20%">{{ group.name }}</td>
+	<td class="group-num" width="5%"><a href="{% url 'group' group.id %}">{{ group.id }}</a></td>
+	<td class="group-name" width="20%"><a href="{% url 'group' group.id %}">{{ group.name }}</a></td>
 	<td class="group-user" width="52%">
 		{% for user in group.user_set.all %}
 			{{ user.first_name }}{% if not forloop.last %},{% endif %}

@@ -64,6 +64,7 @@ class SimpleTest(TestCase):
         self.assertContains(response, user.first_name)
         self.assertContains(response, user.last_name)
         self.assertContains(response, user.email)
+        self.assertNotContains(response, 'alert-error')
         new_first_name = 'Lorem'
         new_last_name = 'Ipsum'
         new_email = 'teste@teste.com'
@@ -113,18 +114,33 @@ class SimpleTest(TestCase):
 
     def test_group_page(self):
         "Test the group detail page"
-        self._test_url_notloggedin('/group/1/')
-        # Test user successfully see its page
         self._logs_in()
+        # Fail when provide no group id
+        response_fail = self.client.get('/group/')
+        self.assertEqual(response_fail.status_code, 404)
+        # Test user successfully see its page
         groups = GroupProxy.objects.all()
         for group in groups:
-            response = self.client.get('/group/'+group.id)
+            response = self.client.get('/group/'+str(group.id))
             self.assertEqual(response.status_code, 200)
             self.assertContains(response, group.name)
             for perm in group.permissions.all():
                 self.assertContains(response, perm.name)
             for user in group.user_set.all():
                 self.assertContains(response, user.first_name)
+            self.assertNotContains(response, 'alert-error')
+        new_group_name = 'New group name'
+        # Successfull update group data
+        group = GroupProxy.objects.get(name='Standard')
+        group_id = group.id
+        response = self.client.post('/group/%s' % group.id,
+                {
+                    'name':new_group_name,
+                }
+        )
+        group = GroupProxy.objects.get(id=group_id)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(group.name, new_group_name)
 
     def test_add_group(self):
         "Test the creation of a new group"
@@ -146,7 +162,7 @@ class SimpleTest(TestCase):
 
     def test_remove_group(self):
         "Test removing a group"
-        self._test_url_notloggedin('/add_group/')
+        self._test_url_notloggedin('/remove_group/')
         # Remove group should be a post only page
         self._logs_in()
         response_fail = self.client.get('/remove_group/')

@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Group:</h1>
+	{% if form.errors %}
+	<div class="alert alert-error">
+		<i class="icon-warning-sign icon-white"></i>
+		Something went wrong while updating the group.
+	</div>
+	{% endif %}
+<form action="{% url 'group' group.id %}" method="post">{% csrf_token %}
+	<input name="id" value="{{ group.id }}" type="hidden"/>
+	<label>Name:</label>
+	<span class="control-group{% if form.name.errors %} error{% endif %}">
+		<input type="text" name="name" {% if form.name.value %}value="{{ form.name.value }}"{% endif %} maxlength="30"/>
+	</span>
+	<label>Permissions:</label>
+	{{ form.permissions }}
+	<label>Users:</label>
+	<table class="table table-hover">
+		<thead><tr><th>#</th><th>Name</th></tr></thead>
+	{% for user in group.user_set.all %}
+	<tr class="group">
+		<td class="story-num" width="5%"><a href="{% url 'user' user.id %}" >{{ forloop.counter }}</a></td>
+		<td class="story-name" width="52%"><a href="{% url 'user' user.id %}" >{{ user.first_name }} {{ user.last_name }}</a></td>
+	</tr>
+	{% endfor %}
+</table>
+	<br/>
+	<input class="btn {% if not form.errors %} btn-primary{% endif %}" style="width:10%" type="submit" value="Update"/>
+</form>
+<p class="lead"><a href="{% url 'groups' %}">Back to groups list</a></p>
+{% endblock %}

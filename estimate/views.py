@@ -75,7 +75,34 @@ def groups(request):
 
 @login_required
 def group(request, group_id):
-    pass
+    if request.method == 'POST':
+        try:
+            group = GroupProxy.objects.get(id=group_id)
+        except GroupProxy.DoesNotExist:
+            raise Http404
+        form = GroupForm(request.POST, instance=group)
+        if form.is_valid():
+            form.save()
+            group = GroupProxy.objects.get(id=group_id)
+    else:
+        group = get_object_or_404(GroupProxy, id=group_id)
+        form = _get_group_form(group)
+    return _render_group_page(request, group, form);
+
+def _get_group_form(group):
+    form = GroupForm({
+        'id':group.id,
+        'name':group.name,
+        'permissions':[y.id for y in group.permissions.all()],
+        }, instance=group)
+    return form
+
+def _render_group_page(request, group, form):
+    context = RequestContext(request, {
+        'group':group,
+        'form':form,
+    })
+    return render_to_response('group.html', context)
 
 @login_required
 @permission_required('auth.add_groupproxy', login_url='/login/')

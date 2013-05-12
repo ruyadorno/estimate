@@ -74,7 +74,7 @@ def project_page(request, project_id):
         'form':form,
         'edit_form':edit_form,
         'error':error['ref'] if error else '',
-        'users':UserProxy.objects.all()
+        'users':UserProxy.objects.all(),
     })
     return render_to_response('project.html', context)
 
