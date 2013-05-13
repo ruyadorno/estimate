@@ -1,14 +1,14 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>{{ user.first_name }} {{ user.last_name }}</h1>
+<h1>{{ edituser.first_name }} {{ edituser.last_name }}</h1>
 	{% if form.errors %}
 	<div class="alert alert-error">
 		<i class="icon-warning-sign icon-white"></i>
 		Something went wrong while updating your profile.
 	</div>
 	{% endif %}
-	<form action="{% url 'user' user.id %}" method="post" style="margin:0">{% csrf_token %}
+	<form action="{% url 'user' edituser.id %}" method="post" style="margin:0">{% csrf_token %}
 		<label>First name:</label>
 		<span class="control-group{% if form.first_name.errors %} error{% endif %}">
 			<input type="text" name="first_name" {% if form.first_name.value %}value="{{ form.first_name.value }}"{% endif %} maxlength="30"/>
@@ -38,4 +38,11 @@
 		<br/>
 		<input class="btn {% if not form.errors %} btn-primary{% endif %}" style="width:10%" type="submit" value="Update"/>
 	</form>
+	<br/>
+	{% if show_hidden_fields %}
+	<form action="{% url 'remove_user' %}" method="post">{% csrf_token %}
+		<input type="hidden" name="delete_id" value="{{ edituser.id }}"/>
+		<input class="btn btn-danger" type="submit" value="Remove user"/>
+	</form>
+	{% endif %}
 {% endblock %}

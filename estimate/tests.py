@@ -109,6 +109,38 @@ class SimpleTest(TestCase):
         self.assertContains(response, user.last_name)
         self.assertContains(response, user.email)
 
+    def test_remove_user(self):
+        "Test removing an user"
+        self._test_url_notloggedin('/remove_user/')
+        # Remove user should be a post only page
+        self._logs_in()
+        response_fail = self.client.get('/remove_user/')
+        self.assertEqual(response_fail.status_code, 404)
+        # Test an empty post
+        user_count = UserProxy.objects.count()
+        response_fail = self.client.post('/remove_user/')
+        self.assertRedirects(response_fail, '/users/')
+        self.assertEqual(user_count, UserProxy.objects.count())
+        # Test a non existing id
+        response_fail = self.client.post('/remove_user/', {'delete_id':'20'})
+        self.assertEqual(response_fail.status_code, 404)
+        # Add a new user so we can delete it after
+        user = UserProxy.objects.create_user(
+                'deletedmeuser', 'nop@nop.nop', '1234')
+        user.first_name = 'Delete'
+        user.last_name = 'Me'
+        group = GroupProxy.objects.get(name='Standard')
+        user.groups.add(group)
+        user.save()
+        user_count = UserProxy.objects.count()
+        # Test user deletion
+        id_deleted = user.id
+        response = self.client.post('/remove_user/', {'delete_id':id_deleted})
+        self.assertRedirects(response, '/users/')
+        # Test database have actually been updated and check content
+        self.assertNotEqual(user_count, UserProxy.objects.count())
+        self.assertEqual(len(UserProxy.objects.filter(id=id_deleted)), 0)
+
     def test_groups_page(self):
         "Test the /groups/ page"
         self._test_url_notloggedin('/groups/')

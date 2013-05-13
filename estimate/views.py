@@ -66,11 +66,25 @@ def _get_user_form(user, is_self=False):
 
 def _render_user_page(request, user, form):
     context = RequestContext(request, {
-        'user':user,
+        'edituser':user,
         'form':form,
         'show_hidden_fields':request.user.is_superuser,
     })
     return render_to_response('user.html', context)
+
+@login_required
+@permission_required('auth.delete_userproxy', login_url='/login/')
+def remove_user(request):
+    if request.method == 'POST':
+        try:
+            delete_id = request.POST['delete_id']
+        except KeyError:
+            return redirect('users')
+        user = get_object_or_404(UserProxy, id=delete_id)
+        user.delete()
+        return redirect('users')
+    else:
+        raise Http404
 
 @login_required
 def groups(request):
