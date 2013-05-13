@@ -2,6 +2,23 @@
 
 {% block content %}
 <h1>Groups</h1>
+{% if perms.auth.add_groupproxy %}
+<div class="well">
+	{% if form.errors %}
+	<div class="alert alert-error">
+		<i class="icon-warning-sign icon-white"></i>
+		Have you forgot to add something? Please review your entry below.
+	</div>
+	{% endif %}
+	<form action="{% url 'add_group' %}" method="post" style="margin:0">{% csrf_token %}
+		<label>Add a new Group:</label>
+		<span class="input-append control-group{% if form.name.errors %} error{% endif %}">
+			<input id="id_name" name="name" type="text" placeholder="Name of the group" {% if form.name.value %}value="{{ form.name.value }}"{% endif %} maxlength="100" style="width:55%"/>
+			<input class="btn {% if not form.name.errors %} btn-primary{% endif %}" type="submit" value="Add" style="width:10%"/>
+		</span>
+	</form>
+</div>
+{% endif %}
 <table class="table table-hover">
 	<thead><tr><th>#</th><th>Name</th><th>Users</th></tr></thead>
 {% for group in groups %}

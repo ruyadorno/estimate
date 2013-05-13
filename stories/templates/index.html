@@ -30,11 +30,11 @@
 	{% endif %}
 	<form action="{% url 'stories_add_project' %}" method="post" style="margin:0">{% csrf_token %}
 		<label>Add a new project:</label>
-		<span class="control-group{% if form.description.errors %} error{% endif %}">
-			<input id="id_name" name="name" rows="1" type="text" placeholder="Project Name" {% if form.description.value %}value="{{ form.name.value }}"{% endif %} style="height:20px;width:30%" autofocus="autofocus"/>
+		<span class="control-group{% if form.name.errors %} error{% endif %}">
+			<input id="id_name" name="name" rows="1" type="text" placeholder="Project Name" {% if form.name.value %}value="{{ form.name.value }}"{% endif %} style="height:20px;width:30%" autofocus="autofocus"/>
 		</span>
-		<span class="input-append control-group{% if form.name.errors %} error{% endif %}">
-			<input id="id_description" name="description" type="text" placeholder="Initial project description goes here..." {% if form.name.value %}value="{{ form.name.value }}"{% endif %} maxlength="100" style="width:55%"/>
+		<span class="input-append control-group{% if form.description.errors %} error{% endif %}">
+			<input id="id_description" name="description" type="text" placeholder="Initial project description goes here..." {% if form.description.value %}value="{{ form.description.value }}"{% endif %} maxlength="100" style="width:55%"/>
 			<input class="btn {% if not form.name.errors %} btn-primary{% endif %}" type="submit" value="Add" style="width:10%"/>
 		</span>
 	</form>
