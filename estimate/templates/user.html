@@ -40,7 +40,7 @@
 	</form>
 	<br/>
 	{% if show_hidden_fields %}
-	<form action="{% url 'remove_user' %}" method="post">{% csrf_token %}
+	<form action="{% url 'remove_group' %}" method="post">{% csrf_token %}
 		<input type="hidden" name="delete_id" value="{{ edituser.id }}"/>
 		<input class="btn btn-danger" type="submit" value="Remove user"/>
 	</form>

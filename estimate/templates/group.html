@@ -29,5 +29,11 @@
 	<br/>
 	<input class="btn {% if not form.errors %} btn-primary{% endif %}" style="width:10%" type="submit" value="Update"/>
 </form>
+{% if perms.auth.delete_groupproxy %}
+<form action="{% url 'remove_group' %}" method="post">{% csrf_token %}
+	<input type="hidden" name="delete_id" value="{{ group.id }}"/>
+	<input class="btn btn-danger" type="submit" value="Remove group"/>
+</form>
+{% endif %}
 <p class="lead"><a href="{% url 'groups' %}">Back to groups list</a></p>
 {% endblock %}
