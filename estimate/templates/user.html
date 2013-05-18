@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 
+{% block usersActive %}active{% endblock %}
+
 {% block content %}
 <h1>{{ edituser.first_name }} {{ edituser.last_name }}</h1>
 	{% if form.errors %}

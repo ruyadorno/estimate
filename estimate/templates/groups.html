@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 
+{% block groupsActive %}active{% endblock %}
+
 {% block content %}
 <h1>Groups</h1>
 {% if perms.auth.add_groupproxy %}
