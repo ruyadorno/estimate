@@ -1,5 +1,11 @@
-{% extends "base.html" %}
-
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Estimate</title>
+		<link href="{{ STATIC_URL }}/bootstrap.min.css" rel="stylesheet">
+	</head>
+	<body>
+		<div id="main" class="main container" role="main" style="position:relative">
 {% load i18n %}
 {% block content %}
 <h1>Estimate</h1>
@@ -44,3 +50,7 @@
 	{% endif %}
 </form>
 {% endblock %}
+		</div>
+		<script src="{{ STATIC_URL }}/bootstrap.min.js"></script>
+	</body>
+</html>
