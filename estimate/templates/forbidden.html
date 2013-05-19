@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Estimate</title>
+		<link href="{{ STATIC_URL }}/bootstrap.min.css" rel="stylesheet">
+	</head>
+	<body>
+		<div id="main" class="main container" role="main" style="position:relative">
+{% load i18n %}
+{% block content %}
+<h1>Estimate</h1>
+{% if form.errors %}
+<div class="alert alert-error">
+	<i class="icon-warning-sign icon-white"></i>
+	We couldn't log you in using that url.
+</div>
+{% endif %}
+<div class="alert alert-error alert-block">
+	<h4>Permission problem</h4>
+	<br/>
+	You're not allowed to access this content, please contact the system administrator and ask for the required permissions.
+</div>
+<legend>{% trans "Sign In using OpenID" %}</legend>
+<div class="clearfix"><p>You can use any of the following services, just click on the button to login:</p>
+	<form name="googleopenid" action="{{ action }}" method="post" style="float:left;margin-right:20px">{% csrf_token %}
+		<input type="hidden" id="id_openid_identifier" name="openid_identifier" value="https://www.google.com/accounts/o8/id" />
+		<input name="bsignin" class="btn btn-danger" type="submit" value="{% trans "Google" %}">
+		{% if next %}
+				<input type="hidden" name="next" value="{{ next }}" />
+		{% endif %}
+	</form>
+	<form name="yahooopenid" action="{{ action }}" method="post" style="float:left;margin-right:20px">{% csrf_token %}
+		<input type="hidden" id="id_openid_identifier" name="openid_identifier" value="https://me.yahoo.com/" />
+		<input name="bsignin" class="btn btn-warning" type="submit" value="{% trans "Yahoo" %}">
+		{% if next %}
+				<input type="hidden" name="next" value="{{ next }}" />
+		{% endif %}
+	</form>
+	<form name="stackexopenid" action="{{ action }}" method="post" style="float:left">{% csrf_token %}
+		<input type="hidden" id="id_openid_identifier" name="openid_identifier" value="https://openid.stackexchange.com" />
+		<input name="bsignin" class="btn btn-info" type="submit" value="{% trans "Stack Exchange" %}">
+		{% if next %}
+				<input type="hidden" name="next" value="{{ next }}" />
+		{% endif %}
+	</form>
+</div>
+<form name="openid" action="{{ action }}" method="post">{% csrf_token %}
+	<div class="input-append {% if form.id_openid_identifier.errors %} error{% endif %}">
+			<label for="id_openid_identifier">Or use a custom OpenID url:</label><br />
+			<input id="id_openid_identifier" type="text" class="span1 required openid" name="openid_identifier" maxlength="255" style="width:285px; background: url(http://openid.net/login-bg.gif) no-repeat; background-position: 8px 50%; padding-left: 30px;">
+			<input name="bsignin" class="btn {% if not form.id_openid_identifier.errors %} btn-primary{% endif %}" type="submit" value="{% trans "Sign in" %}">
+	</div>
+	{% if next %}
+			<input type="hidden" name="next" value="{{ next }}" />
+	{% endif %}
+</form>
+{% endblock %}
+		</div>
+		<script src="{{ STATIC_URL }}/bootstrap.min.js"></script>
+	</body>
+</html>
