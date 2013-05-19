@@ -97,7 +97,7 @@
 		{{ story.user.first_name }} {{ story.user.last_name }}
 	</td>
 	<td style="position:relative">
-		<form action="{% url 'change_story_time' %}" method="post" style="position:absolute;top:3px">{% csrf_token %}
+		<form action="{% url 'change_story_time' %}" method="post" style="position:relative;top:-2px;display:block;height:5px">{% csrf_token %}
 			<input name="id" value="{{ story.id }}" type="hidden"/>
 			<input class="span1" name="time" value="{{ story.time }}" type="text"/>
 		</form>
