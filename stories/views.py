@@ -101,19 +101,35 @@ def _get_params(request):
 
 def _get_form(request, error, error_ref):
     try:
-        if error['ref'] == error_ref:
-            form = StoryForm(
-                    initial={
-                        'id':error['id'],
-                        'name':error['name'],
-                        'time':error['time'],
-                        'user':error['user'],
-                        }
-                    )
+        if error['ref'] == 'add_error' and error_ref == 'add_error':
+            form = _get_add_error_form(error)
+        elif error['ref'] == 'edit_error' and error_ref == 'edit_error':
+            form = _get_edit_error_form(error)
         else:
             form = StoryForm()
     except (TypeError, KeyError):
         form = StoryForm()
+    return form
+
+def _get_add_error_form(error):
+    form = StoryForm(
+            {
+                'name':error['name'],
+                'time':error['time'],
+                'user':int(error['user']),
+                }
+            )
+    return form
+
+def _get_edit_error_form(error):
+    form = StoryForm(
+            {
+                'id':int(error['id']),
+                'name':error['name'],
+                'time':error['time'],
+                'user':int(error['user']),
+                }
+            )
     return form
 
 def _get_stories_results(project_id, user_id, group_id):

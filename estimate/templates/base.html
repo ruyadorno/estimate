@@ -25,6 +25,9 @@
 				$('.toggle-options').click(onToggleOptions);
 				$('.story').click(onStoryClicked);
 				$('#edit_opt .close-btn').click(onCloseStory);
+				try{
+					onAppInitialized();
+				} catch(e){}
 			}
 			function onToggleOptions(e){
 				if($(e.currentTarget).find('i').hasClass('icon-minus-sign')){
@@ -45,7 +48,10 @@
 				e.preventDefault();
 				return false;
 			}
-			function onStoryClicked(e){
+			function onStoryClicked(e, skipClosing){
+				if(!skipClosing){
+					onCloseStory({preventDefault:function(){}});
+				}
 				var story = $(e.currentTarget);
 				var editDiv = $('#edit_opt');
 				$('#id_edit_id').val(story.find('input[name=id]').val());
@@ -58,6 +64,8 @@
 				return false;
 			}
 			function onCloseStory(e){
+				$('#edit_opt').find('.alert').remove();
+				$('#edit_opt').find('.control-group').removeClass('error');
 				$('#id_edit_id').val('');
 				$('#id_edit_name').val('');
 				$('#id_edit_time').val('');

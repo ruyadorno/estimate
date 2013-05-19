@@ -18,21 +18,28 @@
 	<form action="{% url 'add_story' %}" method="post" style="margin:0">{% csrf_token %}
 		<input id="id_project" type="hidden" name="project" value="{{ project.id }}"/>
 		<label>Add a new story:</label>
-		<span class="control-group{% if form.description.errors %} error{% endif %}">
+		<span class="control-group{% if form.name.errors %} error{% endif %}">
 			<input id="id_name" type="text" name="name" placeholder="Story short description or name" {% if form.name.value %}value="{{ form.name.value }}"{% endif %} style="width:55%" maxlength="100" autofocus="autofocus"/>
 		</span>
 		<span class="control-group{% if form.user.errors %} error{% endif %}">
 			<select id="id_user" type="text" name="user" style="width:20%" maxlength="100">
-				{% for user in users %}
-					{% if user.first_name != '' %}
-					<option value="{{ user.id }}" {% if form.user.value == user.id %}selected="selected"{% endif %}>{{ user.first_name }} {{ user.last_name }}</option>
+				{% for single in users %}
+					{% if single.first_name != '' %}
+					<option value="{{ single.id }}"
+						{% if form.user.value == single.id %}
+							selected="selected"
+						{% elif not form.user.value and user.id == single.id %}
+							selected="selected"
+						{% endif %}>
+						{{ single.first_name }} {{ single.last_name }}
+					</option>
 					{% endif %}
 				{% endfor %}
 			</select>
 		</span>
-		<span class="input-append control-group{% if form.name.errors %} error{% endif %}">
+		<span class="input-append control-group{% if form.time.errors %} error{% endif %}">
 			<input class="span1" id="id_time" type="text" name="time" placeholder="Time" {% if form.time.value %}value="{{ form.time.value }}"{% endif %} maxlength="6"/ style="width:10%">
-			<input class="btn {% if not form.name.errors %} btn-primary{% endif %}" style="width:10%" type="submit" value="Add"/>
+			<input class="btn {% if not form.errors %} btn-primary{% endif %}" style="width:10%" type="submit" value="Add"/>
 		</span>
 	</form>
 </div>
@@ -42,12 +49,17 @@
 		<i class="icon-warning-sign icon-white"></i>
 		Have you messed up something? Please review your entry below.
 	</div>
+	<script>
+		var onAppInitialized = function(){
+			onStoryClicked({currentTarget:'#story_{{ edit_form.data.id }}'}, true)
+		};
+	</script>
 	{% endif %}
 	<form action="{% url 'edit_story' %}" method="post" style="margin:0">{% csrf_token %}
-		<input id="id_edit_id" type="hidden" name="id" value="{{ edit_form.id.value }}"/>
+		<input id="id_edit_id" type="hidden" name="id" value="{{ edit_form.data.id }}"/>
 		<input id="id_edit_project" type="hidden" name="project" value="{{ project.id }}"/>
 		<label>Edit this story:</label>
-		<span class="control-group{% if edit_form.description.errors %} error{% endif %}">
+		<span class="control-group{% if edit_form.name.errors %} error{% endif %}">
 			<input id="id_edit_name" type="text" name="name" placeholder="Story short description or name" {% if edit_form.name.value %}value="{{ edit_form.name.value }}"{% endif %} style="width:55%" maxlength="100" autofocus="autofocus"/>
 		</span>
 		<span class="control-group{% if edit_form.user.errors %} error{% endif %}">
@@ -59,9 +71,9 @@
 				{% endfor %}
 			</select>
 		</span>
-		<span class="input-append control-group{% if edit_form.name.errors %} error{% endif %}">
+		<span class="input-append control-group{% if edit_form.time.errors %} error{% endif %}">
 			<input class="span1" id="id_edit_time" type="text" name="time" placeholder="Time" {% if edit_form.time.value %}value="{{ edit_form.time.value }}"{% endif %} maxlength="6"/ style="width:10%">
-			<input class="btn {% if not edit_form.name.errors %} btn-primary{% endif %}" style="width:10%" type="submit" value="Update"/>
+			<input class="btn {% if not edit_form.errors %} btn-primary{% endif %}" style="width:10%" type="submit" value="Update"/>
 		</span>
 	</form>
 	<a class="close-btn" href="#" style="position:absolute;top:10px;right:15px"><i class="icon-remove-sign"></i></a>
@@ -90,7 +102,7 @@
 <table class="table table-hover">
 	<thead><tr><th>#</th><th>Name</th><th>User</th><th>Time</th><th>Options</th></tr></thead>
 {% for story in stories %}
-<tr class="story">
+<tr class="story" id="story_{{ story.id }}">
 	<td class="story-num" width="5%">{{ forloop.counter }}</td>
 	<td class="story-name" width="52%">{{ story.name }}</td>
 	<td class="story-user" width="20%" data-userid="{{story.user.id}}">
