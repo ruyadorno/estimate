@@ -3,9 +3,9 @@
 {% block projectsActive %}active{% endblock %}
 
 {% block content %}
-<h1 style="float:left">{{ project.name }}</h1>
-<h2 style="float:right">{{ project.total_time }}</h2>
-<small style="position:absolute;top:0px;right:2px">Time:</small>
+<h1 style="float:left"><a href="{% url 'project_page' project.id %}">{{ project.name }}</a></h1>
+<h2 style="float:right">{{ total_time }}</h2>
+<small style="position:absolute;top:0px;right:2px">Total time:</small>
 <br clear="all"/>
 <p>{{ project.description }}</p>
 <div class="well" style="margin-top:20px">
@@ -72,6 +72,21 @@
 	Something went wrong while editing the time of a story.
 </div>
 {% endif %}
+{% if is_filter%}
+<div class="alert">
+	Showing only results that matches the given filters:
+	<br/>
+	<br/>
+	<ul>
+	{% if filter_user %}
+	<li><strong>User:</strong> {{ filter_user.first_name }} {{ filter_user.last_name }}</li>
+	{% endif %}
+	{% if filter_group %}
+	<li><strong>Group:</strong> {{ filter_group.name }}</li>
+	{% endif %}
+	</ul>
+</div>
+{% endif %}
 <table class="table table-hover">
 	<thead><tr><th>#</th><th>Name</th><th>User</th><th>Time</th><th>Options</th></tr></thead>
 {% for story in stories %}
@@ -99,5 +114,33 @@
 </tr>
 {% endfor %}
 </table>
+<div class="well" style="margin-top:20px;position:relative;height:10px">
+	<strong>Filter by:</strong>
+	<form action="{% url 'project_page' project.id %}" method="get" style="position:absolute;top:19px;left:100px;width:860px">
+		<label>User:</label>
+		<span class="control-group" style="position:absolute;top:-4px;left:50px">
+			<select type="text" name="filterByUser" maxlength="100" class="span2">
+				<option value="any">Any</option>
+				{% for user in users %}
+					{% if user.first_name != '' %}
+					<option value="{{ user.id }}" {% if filter_user and filter_user.id == user.id %}selected="selected"{% endif %}>{{ user.first_name }} {{ user.last_name }}</option>
+					{% endif %}
+				{% endfor %}
+			</select>
+		</span>
+		<label style="position:absolute;top:0px;left:230px">Group:</label>
+		<span class="control-group" style="position:absolute;top:-4px;left:290px">
+			<select type="text" name="filterByGroup" maxlength="100" class="span2">
+				<option value="any">Any</option>
+				{% for group in groups %}
+					{% if group.name != '' %}
+					<option value="{{ group.id }}" {% if filter_group and filter_group.id == group.id %}selected="selected"{% endif %}>{{ group.name }}</option>
+					{% endif %}
+				{% endfor %}
+			</select>
+		</span>
+		<input class="btn" type="submit" value="Filter results" style="position:absolute;top:-5px;left:460px"/>
+	</form>
+</div>
 <p class="lead"><a href="{% url 'stories_index' %}">Back to projects list</a></p>
 {% endblock %}

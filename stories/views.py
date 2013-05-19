@@ -3,7 +3,7 @@ from django.shortcuts import redirect, render_to_response, get_object_or_404
 from django.contrib.auth.decorators import login_required, permission_required
 from django.template import RequestContext
 
-from estimate.models import UserProxy
+from estimate.models import UserProxy, GroupProxy
 from stories.models import Project, Story
 from stories.forms import ProjectForm, StoryForm
 
@@ -64,10 +64,11 @@ def project_page(request, project_id):
         error = request.session['error']
     except KeyError:
         error = None
+    user_id, group_id = _get_params(request)
     form = _get_form(request, error, 'add_error')
     edit_form = _get_form(request, error, 'edit_error')
     request.session['error'] = {}
-    stories = Story.objects.filter(project_id=project.id)
+    stories, is_filter = _get_stories_results(project.id, user_id, group_id)
     context = RequestContext(request, {
         'project':project,
         'stories':stories,
@@ -75,8 +76,28 @@ def project_page(request, project_id):
         'edit_form':edit_form,
         'error':error['ref'] if error else '',
         'users':UserProxy.objects.all(),
+        'groups':GroupProxy.objects.all(),
+        'is_filter':is_filter,
+        'filter_user':_get_filter_user(is_filter, user_id),
+        'filter_group':_get_filter_group(is_filter, group_id),
+        'total_time':_get_total_time(stories),
     })
     return render_to_response('project.html', context)
+
+def _get_params(request):
+    try:
+        user_id = request.GET['filterByUser']
+    except KeyError:
+        user_id = None
+    try:
+        group_id = request.GET['filterByGroup']
+    except KeyError:
+        group_id = None
+    if user_id == 'any':
+        user_id = None
+    if group_id == 'any':
+        group_id = None
+    return user_id, group_id
 
 def _get_form(request, error, error_ref):
     try:
@@ -94,6 +115,35 @@ def _get_form(request, error, error_ref):
     except (TypeError, KeyError):
         form = StoryForm()
     return form
+
+def _get_stories_results(project_id, user_id, group_id):
+    stories = Story.objects.filter(project_id=project_id)
+    is_filter = False
+    if user_id != None:
+        stories = stories.filter(user_id=user_id)
+        is_filter = True
+    if group_id != None:
+        stories = stories.filter(user__groups__id=group_id)
+        is_filter = True
+    return stories, is_filter
+
+def _get_filter_user(is_filter, user_id):
+    if is_filter and user_id != None:
+        filter_user = UserProxy.objects.get(id=user_id)
+    else:
+        filter_user = None
+    return filter_user
+
+def _get_filter_group(is_filter, group_id):
+    if is_filter and group_id != None:
+        filter_group = GroupProxy.objects.get(id=group_id)
+    else:
+        filter_group = None
+    return filter_group
+
+def _get_total_time(stories):
+    times = [(story.total_time) for story in stories]
+    return sum(times)
 
 @login_required
 @permission_required('stories.change_story', login_url='/login/')

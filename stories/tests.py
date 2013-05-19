@@ -162,6 +162,41 @@ class SimpleTest(TestCase):
                 self.assertContains(response, story.name)
                 self.assertContains(response, story.time)
 
+    def test_project_page_filter_user(self):
+        "Test the project page filter"
+        # Test active pages
+        for project in self.active_projects:
+            searchQuery = '/?filterByUser='+str(self.testuser.id)
+            response = self.client.get('/project/'+str(project.id)+searchQuery)
+            self.assertEqual(response.status_code, 200)
+            # Check for page's content
+            self.assertContains(response, self.testuser.first_name)
+            for story in Story.objects.filter(
+                    project_id = project.id,
+                    user_id = self.testuser.id
+                    ):
+                self.assertContains(response, story.name)
+                self.assertContains(response, story.time)
+                self.assertEqual(story.user_id, self.testuser.id)
+
+    def test_project_page_filter_group(self):
+        "Test the project page filter"
+        # Test active pages
+        for project in self.active_projects:
+            group = GroupProxy.objects.all()[0]
+            searchQuery = '/?filterByGroup='+str(group.id)
+            response = self.client.get('/project/'+str(project.id)+searchQuery)
+            self.assertEqual(response.status_code, 200)
+            self.assertContains(response, group.name)
+            # Check for page's content
+            for story in Story.objects.filter(
+                    project_id = project.id,
+                    user__groups__id = group.id
+                    ):
+                self.assertContains(response, story.name)
+                self.assertContains(response, story.time)
+                self.assertEqual(story.group.id, group.id)
+
     def test_change_story_time(self):
         "Test the form to update a story time"
         # Should be a post only page
