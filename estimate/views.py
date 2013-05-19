@@ -73,7 +73,7 @@ def _render_user_page(request, user, form):
     return render_to_response('user.html', context)
 
 @login_required
-@permission_required('auth.delete_userproxy', login_url='/login/')
+@permission_required('auth.delete_userproxy', login_url='/notallowed/')
 def remove_user(request):
     if request.method == 'POST':
         try:
@@ -126,7 +126,7 @@ def _render_group_page(request, group, form):
     return render_to_response('group.html', context)
 
 @login_required
-@permission_required('auth.add_groupproxy', login_url='/login/')
+@permission_required('auth.add_groupproxy', login_url='/notallowed/')
 def add_group(request):
     if request.method == 'POST':
         group = GroupProxy()
@@ -140,7 +140,7 @@ def add_group(request):
         raise Http404
 
 @login_required
-@permission_required('auth.delete_groupproxy', login_url='/login/')
+@permission_required('auth.delete_groupproxy', login_url='/notallowed/')
 def remove_group(request):
     if request.method == 'POST':
         try:
@@ -159,3 +159,6 @@ def _add_group_error(request, form):
         'form':form,
     })
     return render_to_response('groups.html', context)
+
+def forbidden(request):
+    return render_to_response('forbidden.html', RequestContext(request))

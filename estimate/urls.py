@@ -15,4 +15,5 @@ urlpatterns = patterns('',
     url(r'^remove_group/', 'estimate.views.remove_group', name='remove_group'),
     url(r'^group/(?P<group_id>\d+)$', 'estimate.views.group', name='group'),
     url(r'^me/$', 'estimate.views.user_page', name='user_page'),
+    url(r'^notallowed/$', 'estimate.views.forbidden', name='forbidden'),
 )

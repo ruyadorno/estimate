@@ -1,6 +1,6 @@
 from django.http import Http404
 from django.shortcuts import redirect, render_to_response, get_object_or_404
-from django.contrib.auth.decorators import login_required, permission_required
+from django.contrib.auth.decorators import login_required, permission_required, user_passes_test
 from django.template import RequestContext
 
 from estimate.models import UserProxy, GroupProxy
@@ -18,7 +18,7 @@ def index(request):
     return render_to_response('index.html', context)
 
 @login_required
-@permission_required('stories.add_project', login_url='/login/')
+@permission_required('stories.add_project', login_url='/notallowed/')
 def add_project(request):
     if request.method == 'POST':
         project = Project(active=True)
@@ -40,7 +40,7 @@ def add_project_error(request, form):
     return render_to_response('index.html', context)
 
 @login_required
-@permission_required('stories.delete_project', login_url='/login/')
+@permission_required('stories.delete_project', login_url='/notallowed/')
 def remove_project(request):
     if request.method == 'POST':
         try:
@@ -55,7 +55,7 @@ def remove_project(request):
         raise Http404
 
 @login_required
-@permission_required('stories.change_project', login_url='/login/')
+@permission_required('stories.change_project', login_url='/notallowed/')
 def project_page(request, project_id):
     project = get_object_or_404(Project, id=project_id)
     if not project.active:
@@ -146,7 +146,7 @@ def _get_total_time(stories):
     return sum(times)
 
 @login_required
-@permission_required('stories.change_story', login_url='/login/')
+@permission_required('stories.change_story', login_url='/notallowed/')
 def change_story_time(request):
     if request.method == 'POST':
         try:
@@ -174,7 +174,7 @@ def change_story_time(request):
         raise Http404
 
 @login_required
-@permission_required('stories.add_story', login_url='/login/')
+@permission_required('stories.add_story', login_url='/notallowed/')
 def add_story(request):
     if request.method == 'POST':
         story = Story(accepted=True)
@@ -194,7 +194,7 @@ def add_story(request):
         raise Http404
 
 @login_required
-@permission_required('stories.delete_story', login_url='/login/')
+@permission_required('stories.delete_story', login_url='/notallowed/')
 def remove_story(request):
     if request.method == 'POST':
         try:
@@ -209,7 +209,7 @@ def remove_story(request):
         raise Http404
 
 @login_required
-@permission_required('stories.change_story', login_url='/login/')
+@permission_required('stories.change_story', login_url='/notallowed/')
 def edit_story(request):
     if request.method == 'POST':
         edit_id = request.POST.get('id', 0)
