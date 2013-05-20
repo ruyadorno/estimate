@@ -13,32 +13,32 @@
 	<form action="{% url 'user' edituser.id %}" method="post" style="margin:0">{% csrf_token %}
 		<label>First name:</label>
 		<span class="control-group{% if form.first_name.errors %} error{% endif %}">
-			<input type="text" name="first_name" {% if form.first_name.value %}value="{{ form.first_name.value }}"{% endif %} maxlength="30"/>
+			<input {% if not is_editable %}disabled{% endif %} type="text" name="first_name" {% if form.first_name.value %}value="{{ form.first_name.value }}"{% endif %} maxlength="30"/>
 		</span>
 		<label>Last name:</label>
 		<span class="control-group{% if form.last_name.errors %} error{% endif %}">
-			<input type="text" name="last_name" {% if form.last_name.value %}value="{{ form.last_name.value }}"{% endif %} maxlength="30"/>
+			<input {% if not is_editable %}disabled{% endif %} type="text" name="last_name" {% if form.last_name.value %}value="{{ form.last_name.value }}"{% endif %} maxlength="30"/>
 		</span>
 		<label>E-mail:</label>
 		<span class="control-group{% if form.email.errors %} error{% endif %}">
-			<input type="text" name="email" {% if form.email.value %}value="{{ form.email.value }}"{% endif %} maxlength="64"/>
+			<input {% if not is_editable %}disabled{% endif %} type="text" name="email" {% if form.email.value %}value="{{ form.email.value }}"{% endif %} maxlength="64"/>
 		</span>
 		{% if show_hidden_fields %}
 		<label>Active:</label>
 		<span class="control-group{% if form.is_active.errors %} error{% endif %}">
-			<input type="checkbox" name="is_active" {% if form.is_active.value %}checked="checked"{% endif %}/>
+			<input {% if not is_editable %}disabled{% endif %} type="checkbox" name="is_active" {% if form.is_active.value %}checked="checked"{% endif %}/>
 		</span>
 		{% if not is_me %}
 		<label>Super user:</label>
 		<span class="control-group{% if form.is_superuser.errors %} error{% endif %}">
-			<input type="checkbox" name="is_superuser" {% if form.is_superuser.value %}checked="checked"{% endif %}/>
+			<input {% if not is_editable %}disabled{% endif %} type="checkbox" name="is_superuser" {% if form.is_superuser.value %}checked="checked"{% endif %}/>
 		</span>
 		{% endif %}
 		<label>Groups:</label>
 		{{ form.groups }}
 		{% endif %}
 		<br/>
-		<input class="btn {% if not form.errors %} btn-primary{% endif %}" style="width:10%" type="submit" value="Update"/>
+		<input {% if not is_editable %}disabled{% endif %} class="btn {% if not form.errors %} btn-primary{% endif %}" style="width:10%" type="submit" value="Update"/>
 	</form>
 	<br/>
 	{% if show_hidden_fields %}
