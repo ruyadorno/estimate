@@ -149,3 +149,8 @@ LOGGING = {
         },
     }
 }
+
+# Terrible workaround to fix OpenIDBackend inheritance and user permissions
+from django.contrib.auth.backends import ModelBackend
+from django_openid_auth.auth import OpenIDBackend
+OpenIDBackend = type('OpenIDBackend', (ModelBackend,), dict(OpenIDBackend .__dict__)) 

@@ -33,6 +33,8 @@ def users(request):
 @login_required
 def user(request, user_id):
     if request.method == 'POST':
+        if not request.user.has_perm('auth.change_userproxy'):
+            return redirect('forbidden')
         try:
             user = UserProxy.objects.get(id=user_id)
         except UserProxy.DoesNotExist:
@@ -69,6 +71,7 @@ def _render_user_page(request, user, form):
         'edituser':user,
         'form':form,
         'show_hidden_fields':request.user.is_superuser,
+        'is_editable':request.user.has_perm('auth.change_userproxy'),
     })
     return render_to_response('user.html', context)
 
@@ -97,6 +100,8 @@ def groups(request):
 @login_required
 def group(request, group_id):
     if request.method == 'POST':
+        if not request.user.has_perm('auth.change_userproxy'):
+            return redirect('forbidden')
         try:
             group = GroupProxy.objects.get(id=group_id)
         except GroupProxy.DoesNotExist:
@@ -122,6 +127,7 @@ def _render_group_page(request, group, form):
     context = RequestContext(request, {
         'group':group,
         'form':form,
+        'is_editable':request.user.has_perm('auth.change_groupproxy'),
     })
     return render_to_response('group.html', context)
 
