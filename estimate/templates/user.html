@@ -1,6 +1,8 @@
 {% extends "base.html" %}
 
-{% block usersActive %}active{% endblock %}
+{{ is_me }}
+{% block usersActive %}{% if not is_me %}active{% endif %}{% endblock %}
+{% block meActive %}{% if is_me %}active{% endif %}{% endblock %}
 
 {% block content %}
 <h1>{{ edituser.first_name }} {{ edituser.last_name }}</h1>
@@ -46,5 +48,8 @@
 		<input type="hidden" name="delete_id" value="{{ edituser.id }}"/>
 		<input class="btn btn-danger" type="submit" value="Remove user"/>
 	</form>
+	{% endif %}
+	{% if is_me %}
+		<a href="/logout/" class="btn btn-warning">Logout</a>
 	{% endif %}
 {% endblock %}

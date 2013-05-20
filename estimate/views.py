@@ -62,7 +62,6 @@ def _get_user_form(user, is_self=False):
         'is_active':user.is_active,
         'is_superuser':user.is_superuser,
         'groups':[x.id for x in user.groups.all()],
-        'is_me':is_self,
         })
     return form
 
@@ -72,6 +71,7 @@ def _render_user_page(request, user, form):
         'form':form,
         'show_hidden_fields':request.user.is_superuser,
         'is_editable':request.user.has_perm('auth.change_userproxy'),
+        'is_me':request.user==user,
     })
     return render_to_response('user.html', context)
 

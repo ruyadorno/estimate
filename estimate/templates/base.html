@@ -9,6 +9,7 @@
 			<nav class="container">
 				<h2 style="position:absolute"><a href="/">Estimate</a></h2>
 				<ul class="nav nav-tabs" style="margin-top:15px">
+					<li class="{% block meActive %}{% endblock %} pull-right"><a href="/me/">{{ user.first_name }} {{ user.last_name }}</a></li>
 					<li class="{% block usersActive %}{% endblock %} pull-right"><a href="/users/">Users</a></li>
 					<li class="{% block groupsActive %}{% endblock %} pull-right"><a href="/groups/">Groups</a></li>
 					<li class="{% block projectsActive %}{% endblock %} pull-right"><a href="/stories/">Projects</a></li>
