@@ -46,10 +46,10 @@
 	{% if show_hidden_fields %}
 	<form action="{% url 'remove_group' %}" method="post">{% csrf_token %}
 		<input type="hidden" name="delete_id" value="{{ edituser.id }}"/>
-		<input class="btn btn-danger" type="submit" value="Remove user"/>
+		<input class="btn btn-danger" type="submit" value="{% if is_me %}Delete account{% else %}Remove user{% endif %}"/>
 	</form>
 	{% endif %}
 	{% if is_me %}
-		<a href="/logout/" class="btn btn-warning">Logout</a>
+		<a href="/logout/" class="btn btn-warning" style="position:absolute;top:10px;right:10px">Logout</a>
 	{% endif %}
 {% endblock %}
