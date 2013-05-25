@@ -16,6 +16,10 @@
 	<span class="control-group{% if form.name.errors %} error{% endif %}">
 		<input {% if not is_editable %}disabled{% endif %} type="text" name="name" {% if form.name.value %}value="{{ form.name.value }}"{% endif %} maxlength="30"/>
 	</span>
+	<label>Modifier value:</label>
+	<span class="control-group">
+		<input {% if not is_editable %}disabled{% endif %} type="text" name="modifier" {% if modifier_value %}value="{{ modifier_value }}"{% endif %} maxlength="9"/>
+	</span>
 	<label>Permissions:</label>
 	{{ form.permissions }}
 	<label>Users:</label>

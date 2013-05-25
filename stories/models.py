@@ -24,7 +24,7 @@ class Story(models.Model):
 
     def _get_group(self):
         try:
-            group = GroupProxy.objects.get(self.user.group.id)
+            group = GroupProxy.objects.get(id=self.user.group.id)
         except Exception:
             logger.warning(
                 'Could not access the group of a given user'

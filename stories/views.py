@@ -81,6 +81,7 @@ def project_page(request, project_id):
         'filter_user':_get_filter_user(is_filter, user_id),
         'filter_group':_get_filter_group(is_filter, group_id),
         'total_time':_get_total_time(stories),
+        'total_value':_get_total_value(stories),
     })
     return render_to_response('project.html', context)
 
@@ -158,6 +159,10 @@ def _get_filter_group(is_filter, group_id):
     return filter_group
 
 def _get_total_time(stories):
+    times = [(story.time) for story in stories]
+    return sum(times)
+
+def _get_total_value(stories):
     times = [(story.total_time) for story in stories]
     return sum(times)
 

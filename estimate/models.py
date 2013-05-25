@@ -16,7 +16,8 @@ class UserProxy(User):
         if self.groups.count()<1:
             self._get_unassigned_group()
         elif self.groups.count()>1:
-            logger.warning('User has more than one group assigned: '+self.id)
+            logger.warning(
+                'User has more than one group assigned: '+str(self.id))
         return self.groups.all()[0]
 
     def _get_unassigned_group(self):
@@ -26,7 +27,8 @@ class UserProxy(User):
             try:
                 group = Group.objects.all()[0]
             except Exception:
-                logger.error('No groups found for the given user: '+self.id)
+                logger.error(
+                        'No groups found for the given user: '+str(self.id))
         group.user_set.add(self)
 
     def _modifier(self):
@@ -45,14 +47,10 @@ class GroupProxy(Group):
         return self.info.modifier
 
     def _get_unassigned_groupinfo(self):
-        if GroupInfo.objects.count()<1:
-            logger.warning('No GroupInfo object was found on db')
-            groupInfo = GroupInfo.objects.create(modifier=1)
-            groupInfo.save()
-        elif GroupInfo.objects.filter(modifier=1).count()>1:
-            groupInfo = GroupInfo.objects.filter(modifier=1)[0]
-        else:
-            groupInfo = GroupInfo.objects.all()[0]
+        groupInfo = GroupInfo()
+        groupInfo.group = self
+        groupInfo.modifier = 1
+        groupInfo.save()
         self.groupinfo_set.add( groupInfo )
         return groupInfo
 
@@ -61,7 +59,7 @@ class GroupProxy(Group):
             groupInfo = self._get_unassigned_groupinfo()
         elif self.groupinfo_set.count()>1:
             logger.warning(
-                    'Group has more than one groupinfo assigned: '+self.id)
+                'Group has more than one groupinfo assigned: '+str(self.id))
         groupInfo = self.groupinfo_set.all()[0]
         return groupInfo
 

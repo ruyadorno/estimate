@@ -1,3 +1,5 @@
+import logging
+from decimal import Decimal
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth import logout
 from django.shortcuts import redirect
@@ -9,8 +11,10 @@ from django_openid_auth.views import login_begin
 
 from estimate import settings
 from estimate.forms import UserForm, GroupForm
-from estimate.models import UserProxy, GroupProxy
+from estimate.models import UserProxy, GroupProxy, GroupInfo
 
+
+logger = logging.getLogger(__name__)
 
 @login_required
 def home(request):
@@ -100,7 +104,7 @@ def groups(request):
 @login_required
 def group(request, group_id):
     if request.method == 'POST':
-        if not request.user.has_perm('auth.change_userproxy'):
+        if not request.user.has_perm('auth.change_groupproxy'):
             return redirect('forbidden')
         try:
             group = GroupProxy.objects.get(id=group_id)
@@ -110,10 +114,26 @@ def group(request, group_id):
         if form.is_valid():
             form.save()
             group = GroupProxy.objects.get(id=group_id)
+            _save_group_modifier(request, group)
     else:
         group = get_object_or_404(GroupProxy, id=group_id)
         form = _get_group_form(group)
     return _render_group_page(request, group, form);
+
+def _save_group_modifier(request, group):
+    try:
+        new_modifier = request.POST['modifier']
+    except AttributeError:
+        new_modifier = None
+        logger.error('Saving a group without send a modifier value')
+    if new_modifier != None:
+        old_info = group.info
+        groupinfo = GroupInfo()
+        groupinfo.modifier=new_modifier
+        groupinfo.group = group
+        groupinfo.save()
+        group.groupinfo_set.add(groupinfo)
+        old_info.delete()
 
 def _get_group_form(group):
     form = GroupForm({
@@ -127,6 +147,7 @@ def _render_group_page(request, group, form):
     context = RequestContext(request, {
         'group':group,
         'form':form,
+        'modifier_value':group.modifier,
         'is_editable':request.user.has_perm('auth.change_groupproxy'),
     })
     return render_to_response('group.html', context)

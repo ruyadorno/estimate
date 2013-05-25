@@ -4,8 +4,16 @@
 
 {% block content %}
 <h1 style="float:left"><a href="{% url 'project_page' project.id %}">{{ project.name }}</a></h1>
-<h2 style="float:right">{{ total_time }}</h2>
-<small style="position:absolute;top:0px;right:2px">Total time:</small>
+<div style="float:right">
+	<div style="float:left;margin-right:15px">
+		<small>Total value:</small>
+		<h2 style="margin-top:-8px;text-align:right"><small>$ </small>{{ total_value }}</h2>
+	</div>
+	<div style="float:left;padding-left:10px;border-left:solid 1px #CCC">
+		<small style="color:#CCC">Total time:</small>
+		<h2 style="color:#CCC;margin-top:-8px;text-align:right">{{ total_time }}</h2>
+	</div>
+</div>
 <br clear="all"/>
 <p>{{ project.description }}</p>
 <div class="well" style="margin-top:20px">
