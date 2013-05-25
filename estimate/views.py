@@ -121,11 +121,7 @@ def group(request, group_id):
     return _render_group_page(request, group, form);
 
 def _save_group_modifier(request, group):
-    try:
-        new_modifier = request.POST['modifier']
-    except AttributeError:
-        new_modifier = None
-        logger.error('Saving a group without send a modifier value')
+    new_modifier = request.POST.get('modifier', None)
     if new_modifier != None:
         old_info = group.info
         groupinfo = GroupInfo()

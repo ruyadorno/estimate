@@ -53,10 +53,15 @@ class SimpleTest(TestCase):
         project.save()
         self.assertNotEqual(project_count, Project.objects.all())
         # Test model getters
-        self.assertEqual(project.total_time, 0)
+        self.assertEqual(self._get_total_value(project.story_set.all()), 0)
         # Create 5 dumb stories to test the total time
         time = [self._create_story(project).total_time for i in range(5)]
-        self.assertEqual(project.total_time, sum(time))
+        self.assertEqual(
+                self._get_total_value(project.story_set.all()), sum(time))
+
+    def _get_total_value(self, stories):
+        times = [(story.total_time) for story in stories]
+        return sum(times)
     
     def test_story(self):
         # Test story object creation

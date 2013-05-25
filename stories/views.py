@@ -113,22 +113,28 @@ def _get_form(request, error, error_ref):
     return form
 
 def _get_add_error_form(error):
+    user_id = error['user']
+    if user_id == '':
+        user_id = None
     form = StoryForm(
             {
                 'name':error['name'],
                 'time':error['time'],
-                'user':int(error['user']),
+                'user':int(user_id),
                 }
             )
     return form
 
 def _get_edit_error_form(error):
+    user_id = error['user']
+    if user_id == '':
+        user_id = None
     form = StoryForm(
             {
                 'id':int(error['id']),
                 'name':error['name'],
                 'time':error['time'],
-                'user':int(error['user']),
+                'user':int(user_id),
                 }
             )
     return form
