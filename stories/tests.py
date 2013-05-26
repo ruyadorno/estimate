@@ -9,7 +9,7 @@ from stories.models import Project, Story
 class SimpleTest(TestCase):
 
     urls = 'stories.urls'
-    fixtures = ['test.json',]
+    fixtures = ['test_estimate.json', 'test_auth.json', 'test_stories.json']
     testuser = None
 
     USERNAME = 'testusername'

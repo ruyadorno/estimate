@@ -9,6 +9,7 @@ from estimate import receivers, settings
 
 class SimpleTest(TestCase):
 
+    fixtures = ['test_estimate.json', 'test_auth.json', 'test_stories.json']
     testuser = None
 
     USERNAME = 'testusername'
@@ -25,7 +26,7 @@ class SimpleTest(TestCase):
         self._test_url_notloggedin('/')
         response = self.client.get('/')
         self.assertRedirects(response, '/login/?next=/')
-        self._logs_in()
+        self._logs_in_admin()
         response = self.client.get('/')
         self.assertRedirects(response, '/stories/')
 
@@ -38,24 +39,15 @@ class SimpleTest(TestCase):
 
     def test_logout(self):
         "Test logout"
-        self._logs_in()
+        self._logs_in_admin()
         response = self.client.get('/logout/')
         self.assertRedirects(response, '/login/')
-
-    def test_handle_openid_complete(self):
-        group = GroupProxy.objects.get(name='Standard')
-        self.assertEqual(group.user_set.count(), 0)
-        request = HttpRequest()
-        request.user = self._logs_in()
-        receivers.handle_openid_login(request, {})
-        if settings.AUTO_CREATE_SUPERUSER:
-            self.assertEqual(group.user_set.all()[0].id, request.user.id)
 
     def test_users_page(self):
         "Test the /users/ page"
         self._test_url_notloggedin('/users/')
         # Test page loading
-        user = self._logs_in()
+        user = self._logs_in_admin()
         response = self.client.get('/users/')
         self.assertEqual(response.status_code, 200)
         # Test success listing of users
@@ -64,7 +56,7 @@ class SimpleTest(TestCase):
 
     def test_user(self):
         "Test the users page"
-        user = self._logs_in()
+        user = self._logs_in_admin()
         # Fail when provide no user id
         response_fail = self.client.get('/user/')
         self.assertEqual(response_fail.status_code, 404)
@@ -101,7 +93,7 @@ class SimpleTest(TestCase):
         "Test the /me/ page"
         self._test_url_notloggedin('/me/')
         # Test user successfully see its page
-        user = self._logs_in()
+        user = self._logs_in_admin()
         response = self.client.get('/me/')
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, user.id)
@@ -113,7 +105,7 @@ class SimpleTest(TestCase):
         "Test removing an user"
         self._test_url_notloggedin('/remove_user/')
         # Remove user should be a post only page
-        self._logs_in()
+        self._logs_in_admin()
         response_fail = self.client.get('/remove_user/')
         self.assertEqual(response_fail.status_code, 404)
         # Test an empty post
@@ -145,7 +137,7 @@ class SimpleTest(TestCase):
         "Test the /groups/ page"
         self._test_url_notloggedin('/groups/')
         # Test page loading
-        user = self._logs_in()
+        user = self._logs_in_admin()
         response = self.client.get('/groups/')
         self.assertEqual(response.status_code, 200)
         # Test success listing of groups
@@ -157,7 +149,7 @@ class SimpleTest(TestCase):
 
     def test_group_page(self):
         "Test the group detail page"
-        self._logs_in()
+        self._logs_in_admin()
         # Fail when provide no group id
         response_fail = self.client.get('/group/')
         self.assertEqual(response_fail.status_code, 404)
@@ -189,7 +181,7 @@ class SimpleTest(TestCase):
         "Test the creation of a new group"
         self._test_url_notloggedin('/add_group/')
         # Get shouldn't work
-        self._logs_in()
+        self._logs_in_admin()
         response_fail = self.client.get('/add_group/')
         self.assertEqual(response_fail.status_code, 404)
         # Create a new group
@@ -207,7 +199,7 @@ class SimpleTest(TestCase):
         "Test removing a group"
         self._test_url_notloggedin('/remove_group/')
         # Remove group should be a post only page
-        self._logs_in()
+        self._logs_in_admin()
         response_fail = self.client.get('/remove_group/')
         self.assertEqual(response_fail.status_code, 404)
         # Test an empty post
@@ -229,7 +221,7 @@ class SimpleTest(TestCase):
         response_fail = self.client.get(url)
         self.assertRedirects(response_fail, '/login/?next='+url)
 
-    def _logs_in(self):
+    def _logs_in_admin(self):
         user = UserProxy.objects.create_user(
                 self.USERNAME, self.USERMAIL, self.PASSWORD)
         user.first_name = self.USERNAME

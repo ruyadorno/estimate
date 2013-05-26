@@ -1,0 +1,18 @@
+[
+{
+  "pk": 4, 
+  "model": "estimate.groupinfo", 
+  "fields": {
+    "modifier": "50", 
+    "group": 1
+  }
+},
+{
+  "pk": 6, 
+  "model": "estimate.groupinfo", 
+  "fields": {
+    "modifier": "20", 
+    "group": 2
+  }
+}
+]

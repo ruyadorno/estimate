@@ -1,0 +1,546 @@
+[
+{
+  "pk": 1, 
+  "model": "auth.permission", 
+  "fields": {
+    "codename": "add_permission", 
+    "name": "Can add permission", 
+    "content_type": 1
+  }
+},
+{
+  "pk": 2, 
+  "model": "auth.permission", 
+  "fields": {
+    "codename": "change_permission", 
+    "name": "Can change permission", 
+    "content_type": 1
+  }
+},
+{
+  "pk": 3, 
+  "model": "auth.permission", 
+  "fields": {
+    "codename": "delete_permission", 
+    "name": "Can delete permission", 
+    "content_type": 1
+  }
+},
+{
+  "pk": 4, 
+  "model": "auth.permission", 
+  "fields": {
+    "codename": "add_group", 
+    "name": "Can add group", 
+    "content_type": 2
+  }
+},
+{
+  "pk": 5, 
+  "model": "auth.permission", 
+  "fields": {
+    "codename": "change_group", 
+    "name": "Can change group", 
+    "content_type": 2
+  }
+},
+{
+  "pk": 6, 
+  "model": "auth.permission", 
+  "fields": {
+    "codename": "delete_group", 
+    "name": "Can delete group", 
+    "content_type": 2
+  }
+},
+{
+  "pk": 7, 
+  "model": "auth.permission", 
+  "fields": {
+    "codename": "add_user", 
+    "name": "Can add user", 
+    "content_type": 3
+  }
+},
+{
+  "pk": 8, 
+  "model": "auth.permission", 
+  "fields": {
+    "codename": "change_user", 
+    "name": "Can change user", 
+    "content_type": 3
+  }
+},
+{
+  "pk": 9, 
+  "model": "auth.permission", 
+  "fields": {
+    "codename": "delete_user", 
+    "name": "Can delete user", 
+    "content_type": 3
+  }
+},
+{
+  "pk": 10, 
+  "model": "auth.permission", 
+  "fields": {
+    "codename": "add_contenttype", 
+    "name": "Can add content type", 
+    "content_type": 4
+  }
+},
+{
+  "pk": 11, 
+  "model": "auth.permission", 
+  "fields": {
+    "codename": "change_contenttype", 
+    "name": "Can change content type", 
+    "content_type": 4
+  }
+},
+{
+  "pk": 12, 
+  "model": "auth.permission", 
+  "fields": {
+    "codename": "delete_contenttype", 
+    "name": "Can delete content type", 
+    "content_type": 4
+  }
+},
+{
+  "pk": 13, 
+  "model": "auth.permission", 
+  "fields": {
+    "codename": "add_session", 
+    "name": "Can add session", 
+    "content_type": 5
+  }
+},
+{
+  "pk": 14, 
+  "model": "auth.permission", 
+  "fields": {
+    "codename": "change_session", 
+    "name": "Can change session", 
+    "content_type": 5
+  }
+},
+{
+  "pk": 15, 
+  "model": "auth.permission", 
+  "fields": {
+    "codename": "delete_session", 
+    "name": "Can delete session", 
+    "content_type": 5
+  }
+},
+{
+  "pk": 16, 
+  "model": "auth.permission", 
+  "fields": {
+    "codename": "add_site", 
+    "name": "Can add site", 
+    "content_type": 6
+  }
+},
+{
+  "pk": 17, 
+  "model": "auth.permission", 
+  "fields": {
+    "codename": "change_site", 
+    "name": "Can change site", 
+    "content_type": 6
+  }
+},
+{
+  "pk": 18, 
+  "model": "auth.permission", 
+  "fields": {
+    "codename": "delete_site", 
+    "name": "Can delete site", 
+    "content_type": 6
+  }
+},
+{
+  "pk": 19, 
+  "model": "auth.permission", 
+  "fields": {
+    "codename": "add_nonce", 
+    "name": "Can add nonce", 
+    "content_type": 7
+  }
+},
+{
+  "pk": 20, 
+  "model": "auth.permission", 
+  "fields": {
+    "codename": "change_nonce", 
+    "name": "Can change nonce", 
+    "content_type": 7
+  }
+},
+{
+  "pk": 21, 
+  "model": "auth.permission", 
+  "fields": {
+    "codename": "delete_nonce", 
+    "name": "Can delete nonce", 
+    "content_type": 7
+  }
+},
+{
+  "pk": 22, 
+  "model": "auth.permission", 
+  "fields": {
+    "codename": "add_association", 
+    "name": "Can add association", 
+    "content_type": 8
+  }
+},
+{
+  "pk": 23, 
+  "model": "auth.permission", 
+  "fields": {
+    "codename": "change_association", 
+    "name": "Can change association", 
+    "content_type": 8
+  }
+},
+{
+  "pk": 24, 
+  "model": "auth.permission", 
+  "fields": {
+    "codename": "delete_association", 
+    "name": "Can delete association", 
+    "content_type": 8
+  }
+},
+{
+  "pk": 25, 
+  "model": "auth.permission", 
+  "fields": {
+    "codename": "add_useropenid", 
+    "name": "Can add user open id", 
+    "content_type": 9
+  }
+},
+{
+  "pk": 26, 
+  "model": "auth.permission", 
+  "fields": {
+    "codename": "change_useropenid", 
+    "name": "Can change user open id", 
+    "content_type": 9
+  }
+},
+{
+  "pk": 27, 
+  "model": "auth.permission", 
+  "fields": {
+    "codename": "delete_useropenid", 
+    "name": "Can delete user open id", 
+    "content_type": 9
+  }
+},
+{
+  "pk": 28, 
+  "model": "auth.permission", 
+  "fields": {
+    "codename": "add_groupinfo", 
+    "name": "Can add group info", 
+    "content_type": 10
+  }
+},
+{
+  "pk": 29, 
+  "model": "auth.permission", 
+  "fields": {
+    "codename": "change_groupinfo", 
+    "name": "Can change group info", 
+    "content_type": 10
+  }
+},
+{
+  "pk": 30, 
+  "model": "auth.permission", 
+  "fields": {
+    "codename": "delete_groupinfo", 
+    "name": "Can delete group info", 
+    "content_type": 10
+  }
+},
+{
+  "pk": 31, 
+  "model": "auth.permission", 
+  "fields": {
+    "codename": "add_userproxy", 
+    "name": "Can add user proxy", 
+    "content_type": 3
+  }
+},
+{
+  "pk": 32, 
+  "model": "auth.permission", 
+  "fields": {
+    "codename": "change_userproxy", 
+    "name": "Can change user proxy", 
+    "content_type": 3
+  }
+},
+{
+  "pk": 33, 
+  "model": "auth.permission", 
+  "fields": {
+    "codename": "delete_userproxy", 
+    "name": "Can delete user proxy", 
+    "content_type": 3
+  }
+},
+{
+  "pk": 34, 
+  "model": "auth.permission", 
+  "fields": {
+    "codename": "add_groupproxy", 
+    "name": "Can add group proxy", 
+    "content_type": 2
+  }
+},
+{
+  "pk": 35, 
+  "model": "auth.permission", 
+  "fields": {
+    "codename": "change_groupproxy", 
+    "name": "Can change group proxy", 
+    "content_type": 2
+  }
+},
+{
+  "pk": 36, 
+  "model": "auth.permission", 
+  "fields": {
+    "codename": "delete_groupproxy", 
+    "name": "Can delete group proxy", 
+    "content_type": 2
+  }
+},
+{
+  "pk": 37, 
+  "model": "auth.permission", 
+  "fields": {
+    "codename": "add_project", 
+    "name": "Can add project", 
+    "content_type": 13
+  }
+},
+{
+  "pk": 38, 
+  "model": "auth.permission", 
+  "fields": {
+    "codename": "change_project", 
+    "name": "Can change project", 
+    "content_type": 13
+  }
+},
+{
+  "pk": 39, 
+  "model": "auth.permission", 
+  "fields": {
+    "codename": "delete_project", 
+    "name": "Can delete project", 
+    "content_type": 13
+  }
+},
+{
+  "pk": 40, 
+  "model": "auth.permission", 
+  "fields": {
+    "codename": "add_story", 
+    "name": "Can add story", 
+    "content_type": 14
+  }
+},
+{
+  "pk": 41, 
+  "model": "auth.permission", 
+  "fields": {
+    "codename": "change_story", 
+    "name": "Can change story", 
+    "content_type": 14
+  }
+},
+{
+  "pk": 42, 
+  "model": "auth.permission", 
+  "fields": {
+    "codename": "delete_story", 
+    "name": "Can delete story", 
+    "content_type": 14
+  }
+},
+{
+  "pk": 1, 
+  "model": "auth.group", 
+  "fields": {
+    "name": "Standard", 
+    "permissions": [
+      4, 
+      34, 
+      5, 
+      35, 
+      6, 
+      36, 
+      1, 
+      2, 
+      3, 
+      7, 
+      31, 
+      8, 
+      32, 
+      9, 
+      33, 
+      10, 
+      11, 
+      12, 
+      22, 
+      23, 
+      24, 
+      19, 
+      20, 
+      21, 
+      25, 
+      26, 
+      27, 
+      28, 
+      29, 
+      30, 
+      13, 
+      14, 
+      15, 
+      16, 
+      17, 
+      18, 
+      37, 
+      38, 
+      39, 
+      40, 
+      41, 
+      42
+    ]
+  }
+},
+{
+  "pk": 2, 
+  "model": "auth.group", 
+  "fields": {
+    "name": "new group", 
+    "permissions": [
+      37, 
+      38, 
+      39, 
+      40, 
+      41, 
+      42
+    ]
+  }
+},
+{
+  "pk": 1, 
+  "model": "auth.user", 
+  "fields": {
+    "username": "admin", 
+    "first_name": "Admin", 
+    "last_name": "Istrator", 
+    "is_active": true, 
+    "is_superuser": true, 
+    "is_staff": true, 
+    "last_login": "2013-03-01T14:30:36.042Z", 
+    "groups": [
+      1
+    ], 
+    "user_permissions": [], 
+    "password": "pbkdf2_sha256$10000$EdCcJrnnjTvF$Tbg0aWJ/9bX1pOvxZwEWp/vGyWziof4zLFmO0gq6JCQ=", 
+    "email": "ruy@rcdigital.com.br", 
+    "date_joined": "2013-03-01T14:30:36.042Z"
+  }
+},
+{
+  "pk": 4, 
+  "model": "auth.user", 
+  "fields": {
+    "username": "ruyadornogmailcom", 
+    "first_name": "Ruy", 
+    "last_name": "Adorno", 
+    "is_active": true, 
+    "is_superuser": true, 
+    "is_staff": false, 
+    "last_login": "2013-05-19T14:37:05.695Z", 
+    "groups": [
+      1
+    ], 
+    "user_permissions": [], 
+    "password": "!", 
+    "email": "ruyadorno@gmail.com", 
+    "date_joined": "2013-05-13T00:11:15.760Z"
+  }
+},
+{
+  "pk": 5, 
+  "model": "auth.user", 
+  "fields": {
+    "username": "contactruyadornocom", 
+    "first_name": "Fulano", 
+    "last_name": "Contact", 
+    "is_active": true, 
+    "is_superuser": false, 
+    "is_staff": false, 
+    "last_login": "2013-05-19T14:36:39.366Z", 
+    "groups": [
+      2
+    ], 
+    "user_permissions": [], 
+    "password": "!", 
+    "email": "contact@ruyadorno.com", 
+    "date_joined": "2013-05-14T23:01:29.823Z"
+  }
+},
+{
+  "pk": 6, 
+  "model": "auth.user", 
+  "fields": {
+    "username": "ruyrcdigitalcombr", 
+    "first_name": "RC", 
+    "last_name": "Digital", 
+    "is_active": false, 
+    "is_superuser": false, 
+    "is_staff": false, 
+    "last_login": "2013-05-19T14:10:00.857Z", 
+    "groups": [
+      1
+    ], 
+    "user_permissions": [], 
+    "password": "!", 
+    "email": "ruy@rcdigital.com.br", 
+    "date_joined": "2013-05-18T16:23:31.823Z"
+  }
+},
+{
+  "pk": 7, 
+  "model": "auth.user", 
+  "fields": {
+    "username": "Ruy", 
+    "first_name": "Ruy", 
+    "last_name": "Yahoo", 
+    "is_active": true, 
+    "is_superuser": false, 
+    "is_staff": false, 
+    "last_login": "2013-05-20T01:14:38.073Z", 
+    "groups": [
+      2
+    ], 
+    "user_permissions": [], 
+    "password": "!", 
+    "email": "ruyadorno@yahoo.com.br", 
+    "date_joined": "2013-05-20T01:14:38.059Z"
+  }
+}
+]
