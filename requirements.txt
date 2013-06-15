@@ -1,6 +1,5 @@
 Django==1.5
 distribute==0.6.31
 django-openid-auth==0.5
-ipython==0.13.1
 python-openid==2.2.5
 wsgiref==0.1.2
