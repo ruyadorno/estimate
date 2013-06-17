@@ -20,16 +20,51 @@
 			{% block content %}{% endblock %}
 		</div>
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+		<script src="{{ STATIC_URL }}/jquery.ui.core.min.js"></script>
+		<script src="{{ STATIC_URL }}/jquery.ui.widget.min.js"></script>
+		<script src="{{ STATIC_URL }}/jquery.ui.mouse.min.js"></script>
+		<script src="{{ STATIC_URL }}/jquery.ui.sortable.min.js"></script>
 		<script src="{{ STATIC_URL }}/bootstrap.min.js"></script>
 		<script>
 			function main(){
 				$('.toggle-options').click(onToggleOptions);
 				$('.story').click(onStoryClicked);
 				$('#edit_opt .close-btn').click(onCloseStory);
+				$( '#story_table tbody' ).sortable({
+					update:onTableChange,
+					helper:fixHelper
+				}).disableSelection();;
+				$('#update_positions_button').click(onUpdateClick);
 				try{
 					onAppInitialized();
 				} catch(e){}
 			}
+			// Return a helper with preserved width of cells
+			function fixHelper(e, tr) {
+				var $originals = tr.children();
+				var $helper = tr.clone();
+				$helper.children().each(function(index) {
+					$(this).width($originals.eq(index).width());
+				});
+				return $helper;
+			}
+			function onTableChange(e, ui){
+				$.each($('#story_table tbody tr .story-num'), function(index, item){
+					$(item).html(index+1);
+				});
+				$('#update_positions_button').fadeIn();
+				onCloseStory();
+			}
+			function onUpdateClick(e){
+				var newOrder = [];
+				$.each($('#story_table tbody tr'), function(index, item){
+					newOrder.push($(item).find('input[name=id]').val());
+				});
+				$.post('/stories/update_order/', {items:newOrder});
+				$(e.currentTarget).fadeOut();
+				e.preventDefault();
+				return false;
+			};
 			function onToggleOptions(e){
 				if($(e.currentTarget).find('i').hasClass('icon-minus-sign')){
 					$(e.currentTarget).animate({left:0});
@@ -72,10 +107,24 @@
 				$('#id_edit_time').val('');
 				$('#id_edit_user').val('');
 				$('#edit_opt').hide();
-				e.preventDefault();
+				if(e) e.preventDefault();
 				return false;
 			}
 			$(main);
+			// DJANGO CSRF MODULE
+			(function(){
+				function csrfSafeMethod(method) {
+					return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+				}
+				$.ajaxSetup({
+					crossDomain: false,
+					beforeSend: function(xhr, settings) {
+						if (!csrfSafeMethod(settings.type)) {
+							xhr.setRequestHeader("X-CSRFToken", $('form>input[name=csrfmiddlewaretoken]').val());
+						}
+					}
+				});
+			})(window.jQuery);
 		</script>
 	</body>
 </html>

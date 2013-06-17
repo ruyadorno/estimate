@@ -107,13 +107,15 @@
 	</ul>
 </div>
 {% endif %}
-<table class="table table-hover">
+<a href="#" id="update_positions_button" class="btn btn-large btn-warning" style="display:none;margin-bottom:10px;width:910px">Update issues order</a>
+<table id="story_table" class="table table-hover">
 	<thead><tr><th>#</th><th>Name</th><th>User</th><th>Time</th><th>Options</th></tr></thead>
+	<tbody>
 {% for story in stories %}
 <tr class="story" id="story_{{ story.id }}">
-	<td class="story-num" width="5%">{{ forloop.counter }}</td>
-	<td class="story-name" width="52%">{{ story.name }}</td>
-	<td class="story-user" width="20%" data-userid="{{story.user.id}}">
+	<td class="story-num">{{ forloop.counter }}</td>
+	<td class="story-name">{{ story.name }}</td>
+	<td class="story-user" data-userid="{{story.user.id}}">
 		{{ story.user.first_name }} {{ story.user.last_name }}
 	</td>
 	<td style="position:relative">
@@ -122,7 +124,7 @@
 			<input class="span1" name="time" value="{{ story.time }}" type="text"/>
 		</form>
 	</td>
-	<td width="12%">
+	<td>
 		<div style="position:relative">
 			<a class="toggle-options" style="position:absolute;top:3px;left:20px" href="#">
 				<i class="icon-minus-sign"></i>
@@ -135,6 +137,7 @@
 	</td>
 </tr>
 {% endfor %}
+	</tbody>
 </table>
 <div class="well" style="margin-top:20px;position:relative;height:10px">
 	<strong>Filter by:</strong>

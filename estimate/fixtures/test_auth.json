@@ -459,7 +459,7 @@
     ], 
     "user_permissions": [], 
     "password": "pbkdf2_sha256$10000$EdCcJrnnjTvF$Tbg0aWJ/9bX1pOvxZwEWp/vGyWziof4zLFmO0gq6JCQ=", 
-    "email": "ruy@rcdigital.com.br", 
+    "email": "test@example.com", 
     "date_joined": "2013-03-01T14:30:36.042Z"
   }
 },
@@ -467,9 +467,9 @@
   "pk": 4, 
   "model": "auth.user", 
   "fields": {
-    "username": "ruyadornogmailcom", 
-    "first_name": "Ruy", 
-    "last_name": "Adorno", 
+    "username": "johnsmithdummycom", 
+    "first_name": "John", 
+    "last_name": "Smith", 
     "is_active": true, 
     "is_superuser": true, 
     "is_staff": false, 
@@ -479,7 +479,7 @@
     ], 
     "user_permissions": [], 
     "password": "!", 
-    "email": "ruyadorno@gmail.com", 
+    "email": "johnsmith@dummy.com", 
     "date_joined": "2013-05-13T00:11:15.760Z"
   }
 },
@@ -487,9 +487,9 @@
   "pk": 5, 
   "model": "auth.user", 
   "fields": {
-    "username": "contactruyadornocom", 
-    "first_name": "Fulano", 
-    "last_name": "Contact", 
+    "username": "contacttotocom", 
+    "first_name": "Toto", 
+    "last_name": "Lipsum", 
     "is_active": true, 
     "is_superuser": false, 
     "is_staff": false, 
@@ -499,7 +499,7 @@
     ], 
     "user_permissions": [], 
     "password": "!", 
-    "email": "contact@ruyadorno.com", 
+    "email": "contact@toto.com", 
     "date_joined": "2013-05-14T23:01:29.823Z"
   }
 },
@@ -507,9 +507,9 @@
   "pk": 6, 
   "model": "auth.user", 
   "fields": {
-    "username": "ruyrcdigitalcombr", 
-    "first_name": "RC", 
-    "last_name": "Digital", 
+    "username": "testuserexamplecom", 
+    "first_name": "Test", 
+    "last_name": "User", 
     "is_active": false, 
     "is_superuser": false, 
     "is_staff": false, 
@@ -519,7 +519,7 @@
     ], 
     "user_permissions": [], 
     "password": "!", 
-    "email": "ruy@rcdigital.com.br", 
+    "email": "testuser@example.com", 
     "date_joined": "2013-05-18T16:23:31.823Z"
   }
 },
@@ -527,9 +527,9 @@
   "pk": 7, 
   "model": "auth.user", 
   "fields": {
-    "username": "Ruy", 
-    "first_name": "Ruy", 
-    "last_name": "Yahoo", 
+    "username": "tchululugmailcom", 
+    "first_name": "Tchululu", 
+    "last_name": "Loompa", 
     "is_active": true, 
     "is_superuser": false, 
     "is_staff": false, 
@@ -539,7 +539,7 @@
     ], 
     "user_permissions": [], 
     "password": "!", 
-    "email": "ruyadorno@yahoo.com.br", 
+    "email": "tchululu@gmail.com",
     "date_joined": "2013-05-20T01:14:38.059Z"
   }
 }

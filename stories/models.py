@@ -20,6 +20,7 @@ class Story(models.Model):
     time = models.DecimalField(max_digits=5, decimal_places=2)
     accepted = models.BooleanField()
     project = models.ForeignKey(Project)
+    order = models.IntegerField()
     user = models.ForeignKey(UserProxy)
 
     def _get_group(self):

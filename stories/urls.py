@@ -9,4 +9,5 @@ urlpatterns = patterns('',
     url(r'^add_story/$', 'stories.views.add_story', name='add_story'),
     url(r'^remove_story/$', 'stories.views.remove_story', name='remove_story'),
     url(r'^edit_story/$', 'stories.views.edit_story', name='edit_story'),
+    url(r'^update_order/$', 'stories.views.update_order', name='update_order'),
 )

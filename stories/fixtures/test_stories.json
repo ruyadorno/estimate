@@ -31,6 +31,7 @@
   "model": "stories.story", 
   "fields": {
     "project": 1, 
+    "order": 1, 
     "user": 1, 
     "accepted": true, 
     "name": "bla bla bla", 
@@ -42,6 +43,7 @@
   "model": "stories.story", 
   "fields": {
     "project": 1, 
+    "order": 2, 
     "user": 4, 
     "accepted": true, 
     "name": "Lorem ipsum", 
@@ -53,6 +55,7 @@
   "model": "stories.story", 
   "fields": {
     "project": 1, 
+    "order": 3, 
     "user": 5, 
     "accepted": true, 
     "name": "One more", 
@@ -64,6 +67,7 @@
   "model": "stories.story", 
   "fields": {
     "project": 1, 
+    "order": 4, 
     "user": 4, 
     "accepted": true, 
     "name": "Lero lero", 
@@ -75,6 +79,7 @@
   "model": "stories.story", 
   "fields": {
     "project": 1, 
+    "order": 5, 
     "user": 6, 
     "accepted": true, 
     "name": "Oompa Loompa development", 
@@ -86,6 +91,7 @@
   "model": "stories.story", 
   "fields": {
     "project": 1, 
+    "order": 6, 
     "user": 4, 
     "accepted": true, 
     "name": "Lorem ipsum dolor sit amet plus", 
@@ -97,6 +103,7 @@
   "model": "stories.story", 
   "fields": {
     "project": 1, 
+    "order": 7, 
     "user": 5, 
     "accepted": true, 
     "name": "Config something", 
@@ -108,6 +115,7 @@
   "model": "stories.story", 
   "fields": {
     "project": 1, 
+    "order": 8, 
     "user": 4, 
     "accepted": true, 
     "name": "Do you believe", 
@@ -119,6 +127,7 @@
   "model": "stories.story", 
   "fields": {
     "project": 2, 
+    "order": 1, 
     "user": 4, 
     "accepted": true, 
     "name": "First story of a new project", 
@@ -130,6 +139,7 @@
   "model": "stories.story", 
   "fields": {
     "project": 1, 
+    "order": 9, 
     "user": 5, 
     "accepted": true, 
     "name": "bla", 
@@ -141,6 +151,7 @@
   "model": "stories.story", 
   "fields": {
     "project": 3, 
+    "order": 1, 
     "user": 6, 
     "accepted": true, 
     "name": "Lorem ipsum", 
@@ -152,6 +163,7 @@
   "model": "stories.story", 
   "fields": {
     "project": 3, 
+    "order": 2, 
     "user": 4, 
     "accepted": true, 
     "name": "Ipsum Ipsum Ipsum", 
@@ -163,6 +175,7 @@
   "model": "stories.story", 
   "fields": {
     "project": 3, 
+    "order": 3,
     "user": 6, 
     "accepted": true, 
     "name": "Danother stuff", 
@@ -174,6 +187,7 @@
   "model": "stories.story", 
   "fields": {
     "project": 3, 
+    "order": 4,
     "user": 5, 
     "accepted": true, 
     "name": "Hey ho lets go", 
@@ -185,6 +199,7 @@
   "model": "stories.story", 
   "fields": {
     "project": 3, 
+    "order": 5,
     "user": 7, 
     "accepted": true, 
     "name": "Ultimate story", 
@@ -196,6 +211,7 @@
   "model": "stories.story", 
   "fields": {
     "project": 3, 
+    "order": 6,
     "user": 4, 
     "accepted": true, 
     "name": "Patagonia", 
@@ -207,6 +223,7 @@
   "model": "stories.story", 
   "fields": {
     "project": 1, 
+    "order": 10, 
     "user": 4, 
     "accepted": true, 
     "name": "Long story short: bla", 

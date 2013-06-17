@@ -1,3 +1,4 @@
+from random import shuffle
 from django.test import TestCase
 from django.test.client import Client
 from django.contrib.auth.models import Permission
@@ -77,12 +78,15 @@ class SimpleTest(TestCase):
         self.assertEqual(story.total_time, total_time)
 
     def _create_story(self, proj):
+        story_count = Story.objects.filter(project_id=proj).count()
+        story_order = story_count+1
         story = Story.objects.create(
                 name='Lorem ipsum test',
                 time=5,
                 accepted=True,
                 project=proj,
                 user=self.testuser,
+                order=story_order,
                 )
         story.save()
         return story
@@ -332,3 +336,23 @@ class SimpleTest(TestCase):
                 self.assertNotEqual(old_story_time, new_story.time)
                 self.assertNotEqual(old_story_user, new_story.user)
                 self.assertEqual(new_story.time, new_story_time)
+
+    def test_update_order(self):
+        # Should be a post only page
+        response_fail = self.client.get('/update_order/')
+        self.assertEqual(response_fail.status_code, 404)
+        # Testing order
+        projects = Project.objects.filter(active=True)
+        for project in projects:
+            stories = Story.objects.filter(project_id=project.id).order_by('order')
+            old_ids_order = [x.id for x in stories]
+            new_order = list(old_ids_order)
+            shuffle(new_order)
+            response = self.client.post('/update_order/',
+                    { 'items[]': new_order }
+            )
+            self.assertContains(response, 'true')
+            new_stories = Story.objects.filter(project_id=project.id).order_by('order')
+            new_ids_order = [x.id for x in new_stories]
+            #self.assertNotEqual(old_ids_order, new_ids_order)
+            self.assertSequenceEqual(new_order, new_ids_order)

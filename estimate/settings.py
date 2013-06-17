@@ -56,6 +56,7 @@ STATICFILES_DIRS = (
     local_settings.PATH+'bootstrap/css',
     local_settings.PATH+'bootstrap/img',
     local_settings.PATH+'bootstrap/js',
+    local_settings.PATH+'jqueryui',
 )
 
 # List of finder classes that know how to find static files in

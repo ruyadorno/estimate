@@ -11,4 +11,4 @@ class ProjectForm(forms.ModelForm):
 class StoryForm(forms.ModelForm):
     class Meta:
         model = Story
-        exclude = ('accepted',)
+        exclude = ('accepted', 'order', )

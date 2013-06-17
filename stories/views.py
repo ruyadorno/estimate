@@ -1,4 +1,4 @@
-from django.http import Http404
+from django.http import HttpResponse, Http404
 from django.shortcuts import redirect, render_to_response, get_object_or_404
 from django.contrib.auth.decorators import login_required, permission_required, user_passes_test
 from django.template import RequestContext
@@ -140,7 +140,7 @@ def _get_edit_error_form(error):
     return form
 
 def _get_stories_results(project_id, user_id, group_id):
-    stories = Story.objects.filter(project_id=project_id)
+    stories = Story.objects.filter(project_id=project_id).order_by('order')
     is_filter = False
     if user_id != None:
         stories = stories.filter(user_id=user_id)
@@ -204,11 +204,13 @@ def change_story_time(request):
 @permission_required('stories.add_story', login_url='/notallowed/')
 def add_story(request):
     if request.method == 'POST':
+        project_id = request.POST.get('project', None)
         story = Story(accepted=True)
+        story.order = Story.objects.filter(project=project_id).count()+1
         form = StoryForm(request.POST, instance=story)
         if form.is_valid():
             form.save()
-            return redirect('project_page', project_id=story.project_id)
+            return redirect('project_page', project_id=project_id )
         else:
             request.session['error'] = {
                 'ref':'add_error',
@@ -216,7 +218,7 @@ def add_story(request):
                 'time':request.POST.get('time', ''),
                 'user':request.POST.get('user', ''),
             }
-            return redirect('project_page', project_id=request.POST['project'])
+            return redirect('project_page', project_id=project_id)
     else:
         raise Http404
 
@@ -259,3 +261,24 @@ def edit_story(request):
             return redirect('project_page', project_id=request.POST['project'])
     else:
         raise Http404
+
+@login_required
+@permission_required('stories.change_story', login_url='/notallowed/')
+def update_order(request):
+    if request.method == 'POST':
+        ids_order = request.POST.getlist('items[]')
+        if ids_order != []:
+            count = 1
+            for i in ids_order:
+                story = Story.objects.get(id=int(i))
+                story.order = count
+                story.save()
+                count += 1
+            return ajax_response('true')
+        else:
+            return ajax_response('false')
+    else:
+        raise Http404
+
+def ajax_response(result):
+    return HttpResponse(result, mimetype="application/json")
