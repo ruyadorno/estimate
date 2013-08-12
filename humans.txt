@@ -1,0 +1,17 @@
+# humanstxt.org/
+# The humans responsible & technology colophon
+
+# TEAM
+
+    Ruy Adorno - @ruyadorno
+
+# THANKS
+
+    Erick Belfort - @ErickBelfy
+    Marlos Carmo - @marloscarmo
+    Luri Mendes - @lurimendes
+
+# TECHNOLOGY COLOPHON
+
+    HTML5, CSS3
+    jQuery, Modernizr
