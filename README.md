@@ -1,7 +1,7 @@
 estimate
 ========
 
-http://estimate.rcdigital.com.br
+http://ruyadorno.github.io/estimate
 
 Application to help time estimation for digital agencies.
 
